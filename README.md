@@ -2,7 +2,12 @@
 
 ## How to run
 
-Clone repo then run in directory this command:
+Clone repo then run this command in the directory:
 ```
-npm run dev:watch
+npm install
+```
+
+Run this for developing:
+```
+npm run devwatch
 ```
