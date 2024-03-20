@@ -1,6 +1,6 @@
 # Fitness Tracker App
 
-## How to run
+## How to develop
 
 Clone repo then run this command in the main directory:
 ```
