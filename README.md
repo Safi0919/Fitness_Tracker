@@ -1,7 +1,5 @@
 # Fitness Tracker App
 
-(Currently not working)
-
 ## How to run
 
 Clone repo then run this command in the directory:
