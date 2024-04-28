@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Add = () => {
     const [workout, setWorkout] = useState({
@@ -15,6 +15,8 @@ const Add = () => {
       sets:null
     });
 
+    const navigate = useNavigate()
+
     const handleChange = (e) =>{
         setWorkout(prev=>({...prev, [e.target.name]: e.target.value}))
     };
@@ -22,7 +24,9 @@ const Add = () => {
     const handleClick = async e => {
         e.preventDefault()
         try {
-          await axios.post("http://localhost:8800/workouts", workout)
+          const res = await axios.post("http://localhost:8800/workouts", workout)
+          console.log(res)
+          navigate("/workouts")
         } catch (err) {
           console.log(err);
         }

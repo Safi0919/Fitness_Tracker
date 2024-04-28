@@ -5,24 +5,24 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 const Routines = () => {
-  const [workouts, setworkouts] = useState([]);
+  const [routines, setroutines] = useState([]);
 
   useEffect(()=>{
-    const fetchAllWorkouts = async () =>{
+    const fetchAllRoutines = async () =>{
         try{
-            const res = await axios.get("http://localhost:8800/workouts");
+            const res = await axios.get("http://localhost:8800/routines");
             console.log(res);
-            setworkouts(res.data);
+            setroutines(res.data);
         }catch(err){
             console.log(err);
         }
     }
-    fetchAllWorkouts();
+    fetchAllRoutines();
   },[])
 
   const handleDelete = async (id)=>{
     try {
-        await axios.delete("http://localhost:8800/workouts/"+id);
+        await axios.delete("http://localhost:8800/routines/"+id);
         window.location.reload();
     } catch (err) {
         console.log(err);
@@ -32,22 +32,16 @@ const Routines = () => {
   return (
     <div>
         <h1>Routines</h1>
-        <div className="workouts">
-            {workouts.map(workout=>(
-                <div className="workout">
-                    <h2>{workout.name}</h2>
-                    <h2>{workout.type}</h2>
-                    <h2>{workout.muscle}</h2>
-                    <h2>{workout.difficulty}</h2>
-                    <p>{workout.instructions}</p>
-                    <h2>{workout.reps}</h2>
-                    <h2>{workout.sets}</h2>
-                    <button className="delete" onClick={()=>handleDelete(workout.workoutid)}>Delete</button>
-                    <button className="update"><Link to={`/workouts/update/${workout.workoutid}`}>Update</Link></button>
+        <div className="routine">
+            {routines.map(routine=>(
+                <div className="routine">
+                    <h2>{routine.name}</h2>
+                    <button className="delete" onClick={()=>handleDelete(routine.workoutid)}>Delete</button>
+                    <button className="update"><Link to={`/routines/update/${routine.workoutid}`}>Update</Link></button>
                 </div>
             ))}
         </div>
-        <button><Link to="/workouts/add">Add</Link></button>
+        <button><Link to="/routines/add">Add</Link></button>
     </div>
   )
 }

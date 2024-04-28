@@ -41,6 +41,23 @@ app.get("/users/:id", (req, res) => {
     });
 });
 
+app.post("/users", (req, res) => {
+  const q =
+    "INSERT INTO users (`username`, `email`, `phoneNum`, `password`) VALUES (?)";
+  const values = [
+    req.body.username,
+    req.body.email,
+    req.body.phoneNum,
+    req.body.password,
+  ];
+  console.log(req.body);
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("User has been created successfully!");
+  });
+});
+
 app.get("/workouts", (req,res)=>{
     const q = "SELECT * FROM workouts"
     db.query(q,(err,data)=>{
@@ -49,21 +66,14 @@ app.get("/workouts", (req,res)=>{
     })
 })
 
-app.post("/users", (req,res)=>{
-    const q = "INSERT INTO users (`username`, `email`, `phoneNum`, `password`) VALUES (?)"
-    const values = [
-        req.body.username,
-        req.body.email,
-        req.body.phoneNum,
-        req.body.password
-    ];
-    console.log(req.body);
-
-    db.query(q,[values], (err,data)=>{
-        if (err) return res.json(err)
-        return res.json("User has been created successfully!");
-    })
-})
+app.get("/workouts/:id", (req, res) => {
+    const workoutid = req.params.id;
+    const q = "SELECT * FROM workouts WHERE workoutid = ?";
+  db.query(q, [workoutid], (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data[0] || {});
+  });
+});
 
 app.post("/workouts", (req,res)=>{
     const q = "INSERT INTO workouts (`name`, `type`, `muscle`, `difficulty`, `instructions`, `reps`, `sets`) VALUES (?)"
@@ -110,6 +120,73 @@ app.delete("/workouts/:id", (req,res)=>{
         return res.json("Workout has been deleted successfully!");
     })
 })
+
+app.get("/routines", (req, res) => {
+  const q = "SELECT * FROM routines";
+  db.query(q, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
+
+app.get("/routines/:id", (req, res) => {
+  const workoutid = req.params.id;
+  const q = "SELECT * FROM routines WHERE routineid = ?";
+  db.query(q, [workoutid], (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data[0] || {});
+  });
+});
+
+app.post("/routines", (req, res) => {
+  const q =
+    "INSERT INTO routines (`name`) VALUES (?)";
+  const values = [
+    req.body.name,
+    req.body.type,
+    req.body.muscle,
+    req.body.difficulty,
+    req.body.instructions,
+    req.body.reps,
+    req.body.sets,
+  ];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("Routine has been created successfully!");
+  });
+});
+
+app.put("/routines/:id", (req, res) => {
+  const workoutid = req.params.id;
+  const q =
+    "UPDATE routines SET `name` = ? WHERE routineid = ?";
+
+  const values = [
+    req.body.name,
+    req.body.type,
+    req.body.muscle,
+    req.body.difficulty,
+    req.body.instructions,
+    req.body.reps,
+    req.body.sets,
+  ];
+
+  db.query(q, [...values, workoutid], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("Routine has been updated successfully!");
+  });
+});
+
+app.delete("/routines/:id", (req, res) => {
+  const workoutid = req.params.id;
+  const q = "DELETE FROM routine WHERE routinesid = ?";
+
+  db.query(q, [workoutid], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("Routine has been deleted successfully!");
+  });
+});
 
 app.listen(8800, ()=>{
     console.log("Connected to backend!")

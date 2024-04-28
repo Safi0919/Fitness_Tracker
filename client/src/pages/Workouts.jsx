@@ -33,23 +33,37 @@ const Workouts = () => {
     <div>
         <h1>Workouts</h1>
         <div className="workouts">
-            {workouts.map(workout=>(
-                <div className="workout">
-                    <h2>{workout.name}</h2>
-                    <h2>{workout.type}</h2>
-                    <h2>{workout.muscle}</h2>
-                    <h2>{workout.difficulty}</h2>
-                    <p>{workout.instructions}</p>
-                    <h2>{workout.reps}</h2>
-                    <h2>{workout.sets}</h2>
-                    <button className="delete" onClick={()=>handleDelete(workout.workoutid)}>Delete</button>
-                    <button className="update"><Link to={`/workouts/update/${workout.workoutid}`}>Update</Link></button>
-                </div>
-            ))}
+            <table>
+                <tr>
+                <th>Workout Name</th>
+                <th>Type</th>
+                <th>Muscle Group</th>
+                <th>Difficulty</th>
+                <th>Instructions</th>
+                <th>Reps</th>
+                <th>Sets</th>
+                <th>Action</th>
+                </tr>
+            {workouts.map((val,key)=>{
+                return (
+                    <tr key={key}>
+                        <td>{val.name}</td>
+                        <td>{val.type}</td>
+                        <td>{val.muscle}</td>
+                        <td>{val.difficulty}</td>
+                        <td>{val.instructions}</td>
+                        <td>{val.reps}</td>
+                        <td>{val.sets}</td>
+                        <button className="update"><Link to={`/workouts/update/${val.workoutid}`}>Update</Link></button>
+                        <button className="delete" onClick={()=>handleDelete(val.workoutid)}>Delete</button>
+                    </tr>
+                )
+            })}
+            </table>
         </div>
         <button><Link to="/workouts/add">Add</Link></button>
     </div>
   )
 }
-
+// TODO: add a button for adding a workout to a user's profile
 export default Workouts
