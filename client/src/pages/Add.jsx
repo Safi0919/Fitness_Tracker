@@ -22,9 +22,9 @@ const Add = () => {
     const handleClick = async e => {
         e.preventDefault()
         try {
-            await axios.post("http://localhost:8800/workouts", workout)
+          await axios.post("http://localhost:8800/workouts", workout)
         } catch (err) {
-            
+          console.log(err);
         }
     }
 

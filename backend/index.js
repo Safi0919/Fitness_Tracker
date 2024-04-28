@@ -18,6 +18,27 @@ app.get("/", (req,res)=>{
     res.json("You are connected to the backend!")
 })
 
+
+// Can't use get for some reason
+app.get("/users", (req,res)=>{
+    const q = "SELECT * FROM users"
+
+    db.query(q,(err,data)=>{
+        if (err) return res.json(err)
+        return res.json(data);
+    })
+})
+
+app.get("/users/:id", (req, res) => {
+    const userid = req.params.id;
+    const q = "SELECT * FROM users WHERE userid = ?";
+
+    db.query(q, [userid], (err, data) => {
+        if (err) return res.json(err);
+        return res.json(data);
+    });
+});
+
 app.get("/workouts", (req,res)=>{
     const q = "SELECT * FROM workouts"
     db.query(q,(err,data)=>{
@@ -34,6 +55,7 @@ app.post("/users", (req,res)=>{
         req.body.phoneNum,
         req.body.password
     ];
+    console.log(req.body);
 
     db.query(q,[values], (err,data)=>{
         if (err) return res.json(err)
