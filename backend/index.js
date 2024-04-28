@@ -1,14 +1,16 @@
 import express from "express"
 import mysql from "mysql"
 import cors from "cors"
+import dotenv from 'dotenv'
 
 const app = express()
+dotenv.config()
 
 const db = mysql.createConnection({
-    host:"localhost",
-    user:"user",
-    password:"password",
-    database:"fitnesstracker"
+    host:process.env.DB_HOST,
+    user:process.env.DB_USER,
+    password:process.env.DB_PASSWORD,
+    database:process.env.DB_NAME
 })
 
 app.use(express.json())
@@ -59,7 +61,7 @@ app.post("/users", (req,res)=>{
 
     db.query(q,[values], (err,data)=>{
         if (err) return res.json(err)
-        return res.json("User has been created successfully!");       
+        return res.json("User has been created successfully!");
     })
 })
 
@@ -76,7 +78,7 @@ app.post("/workouts", (req,res)=>{
 
     db.query(q,[values], (err,data)=>{
         if (err) return res.json(err)
-        return res.json("Workout has been created successfully!");       
+        return res.json("Workout has been created successfully!");
     })
 })
 
@@ -95,7 +97,7 @@ app.put("/workouts/:id", (req,res)=>{
 
     db.query(q,[...values,workoutid], (err,data)=>{
         if (err) return res.json(err)
-        return res.json("Workout has been updated successfully!");            
+        return res.json("Workout has been updated successfully!");
     })
 })
 
@@ -105,7 +107,7 @@ app.delete("/workouts/:id", (req,res)=>{
 
     db.query(q,[workoutid], (err,data)=>{
         if (err) return res.json(err)
-        return res.json("Workout has been deleted successfully!");            
+        return res.json("Workout has been deleted successfully!");
     })
 })
 
