@@ -1,20 +1,30 @@
-import { Link, NavLink } from "react-router-dom"
+import React, { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
 
-// Navigation Bar
-// Add any active links inside <ul>
 export default function Navbar() {
-    return (
-    <nav className="nav">
-        <Link to="/" className="site-title">
-            Fitness Tracker
-        </Link>
+    const { isLoggedIn, logout } = useContext(AuthContext);
 
-        <ul>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/users">Users</NavLink>
-        <NavLink to="/routines">Routines</NavLink>
-        <NavLink to="/workouts">Workouts</NavLink>
-        </ul>
-    </nav>
-    )
+    const handleLogout = () => {
+        logout();
+    };
+
+    return (
+        <nav className="nav">
+            <NavLink to="/" className="site-title">
+                Fitness Tracker
+            </NavLink>
+
+            {isLoggedIn && (
+                <ul>
+                    <NavLink to="/">Home</NavLink>
+                    <NavLink to="/users">Users</NavLink>
+                    <NavLink to="/routines">Routines</NavLink>
+                    <NavLink to="/workouts">Workouts</NavLink>
+                    {/* Use handleLogout function when logout is clicked */}
+                    <NavLink to="/" onClick={handleLogout}>Logout</NavLink>
+                </ul>
+            )}
+        </nav>
+    );
 }
