@@ -42,30 +42,58 @@ app.get("/users/:id", (req, res) => {
   });
 });
 
-app.post("/users", (req, res) => {
-  const q =
-    "INSERT INTO users (`username`, `email`, `phoneNum`, `password`) VALUES (?)";
-  const values = [
-    req.body.username,
-    req.body.email,
-    req.body.phoneNum,
-    req.body.password,
-  ];
-  console.log(req.body);
+app.get("/workouts", (req,res)=>{
+    const q = "SELECT * FROM workouts"
+    db.query(q,(err,data)=>{
+        if (err) return res.json(err)
+        return res.json(data);
+    })
+})
 
-  db.query(q, [values], (err, data) => {
-    if (err) return res.json(err);
-    return res.json("User has been created successfully!");
-  });
+app.post("/login", (req, res) => {
+    const q = "SELECT * FROM users WHERE username = ? AND password = ?";
+    const values = [
+        req.body.username,
+        req.body.password
+    ];
+
+    db.query(q, values, (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Database error" });
+        }
+        if (data.length === 1) {
+            // If login is successful, return the user ID
+            return res.status(200).json({ userid: data[0].userid });
+        } else {
+            return res.status(401).json({ error: "Invalid username or password" });
+        }
+    });
 });
 
-app.get("/workouts", (req, res) => {
-  const q = "SELECT * FROM workouts";
-  db.query(q, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data);
-  });
+
+
+app.post("/users", (req,res)=>{
+    const q = "INSERT INTO users (`username`, `email`, `phoneNum`, `password`) VALUES (?)"
+    const values = [
+        req.body.username,
+        req.body.email,
+        req.body.phoneNum,
+        req.body.password
+    ];
+
+    db.query(q, [values], (err, data) => {
+        if (err) {
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(400).json({ message: 'Username already exists!' });
+            } else {
+                return res.status(500).json({ message: 'An error occurred while processing your request' });
+            }
+        } else {
+            return res.status(200).json("Registration successful!");
+        }
+    });
 });
+
 
 app.get("/workouts/:id", (req, res) => {
   const workoutid = req.params.id;
