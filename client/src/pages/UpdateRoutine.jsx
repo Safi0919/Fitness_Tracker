@@ -3,15 +3,20 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 
-const AddRoutine = () => {
+const UpdateRoutine = () => {
     const [routine, setRoutine] = useState({
       routinename:""
     });
 
     const [workouts, setworkouts] = useState([]);
     const [checkedWorkoutIds, setCheckedWorkoutIds] = useState([])
+
+    const navigate = useNavigate()
+    const location = useLocation();
+    const routineid = location.pathname.split("/")[3];
 
     // Fetch all workouts  to add to routine
     useEffect(()=>{
@@ -27,7 +32,22 @@ const AddRoutine = () => {
       fetchAllWorkouts();
     },[])
 
-    const navigate = useNavigate()
+    useEffect(() => {
+        const fetchRoutine = async () => {
+          try {
+            const response = await axios.get(
+              `http://localhost:8800/routines/${routineid}`
+            );
+            setRoutine(response.data);
+          } catch (err) {
+            console.error("Failed to fetch routine", err);
+          }
+        };
+
+        fetchRoutine();
+      }, [routineid]);
+
+    console.log(location.pathname.split("/")[3]);
 
     const handleChange = (e) =>{
         setRoutine(prev=>({...prev, [e.target.name]: e.target.value}))
@@ -48,33 +68,32 @@ const AddRoutine = () => {
     const handleClick = async (e) => {
       e.preventDefault();
       try {
-        // Create routine and get the new routine ID
-        const routineResponse = await axios.post(
-          "http://localhost:8800/routines",
-          routine
+        // Update routine name
+        const routineResponse = await axios.put(
+          `http://localhost:8800/routines/${routineid}`, routine
         );
         console.log(routineResponse);
-        const routineId = routineResponse.data.id;
 
-        // Assuming you are associating workouts immediately after creating the routine
+        // Update the workouts associated with the routine
         if (checkedWorkoutIds.length > 0) {
-          await axios.post(
-            `http://localhost:8800/routines/${routineId}/workouts`,
+          await axios.put(
+            `http://localhost:8800/routines/${routineid}/workouts`,
             { workoutIds: checkedWorkoutIds }
           );
         }
 
         navigate("/routines");
       } catch (err) {
-        console.error("Error creating routine or adding workouts: ", err);
+        console.error("Error updating routine or adding workouts: ", err);
       }
     };
+
 
     console.log(routine);
 
   return (
     <div>
-        <h1>Create New Routine</h1>
+        <h1>Update Routine</h1>
         <input type="text" placeholder='name' onChange={handleChange} name="routinename"/>
         <div className="workouts">
             <table>
@@ -104,14 +123,10 @@ const AddRoutine = () => {
             })}
             </table>
         </div>
-        <button onClick={handleClick}>Create Routine</button>
-        <div>
-                {/* Display checked workout IDs for debugging */}
-                Checked workout IDs: {checkedWorkoutIds.join(", ")}
-        </div>
+        <button onClick={handleClick}>Update Routine</button>
     </div>
   )
-  
+
 }
 
-export default AddRoutine
+export default UpdateRoutine

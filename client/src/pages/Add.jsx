@@ -35,7 +35,7 @@ const Add = () => {
     console.log(workout);
   return (
     <div>
-        <h1>Add new workouts</h1>
+        <h1>Add new workout</h1>
         <input type="text" placeholder='name' onChange={handleChange} name="name"/>
         <input type="text" placeholder='type' onChange={handleChange} name="type"/>
         <input type="text" placeholder='muscle' onChange={handleChange} name="muscle"/>

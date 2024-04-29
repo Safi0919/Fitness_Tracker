@@ -47,7 +47,7 @@ const Update = () => {
     const handleClick = async e => {
         e.preventDefault()
         try {
-            const res = await axios.put("http://localhost:8800/workouts/" + workoutid, workout)
+            const res = await axios.put(`http://localhost:8800/workouts/${workoutid}`, workout)
             console.log(res)
             navigate("/workouts")
         } catch (err) {
