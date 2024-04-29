@@ -49,6 +49,28 @@ app.get("/workouts", (req,res)=>{
     })
 })
 
+app.post("/login", (req, res) => {
+    const q = "SELECT * FROM users WHERE username = ? AND password = ?";
+    const values = [
+        req.body.username,
+        req.body.password
+    ];
+
+    db.query(q, values, (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: "Database error" });
+        }
+        if (data.length === 1) {
+            // If login is successful, return the user ID
+            return res.status(200).json({ userid: data[0].userid });
+        } else {
+            return res.status(401).json({ error: "Invalid username or password" });
+        }
+    });
+});
+
+
+
 app.post("/users", (req,res)=>{
     const q = "INSERT INTO users (`username`, `email`, `phoneNum`, `password`) VALUES (?)"
     const values = [
@@ -57,13 +79,20 @@ app.post("/users", (req,res)=>{
         req.body.phoneNum,
         req.body.password
     ];
-    console.log(req.body);
 
-    db.query(q,[values], (err,data)=>{
-        if (err) return res.json(err)
-        return res.json("User has been created successfully!");
-    })
-})
+    db.query(q, [values], (err, data) => {
+        if (err) {
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(400).json({ message: 'Username already exists!' });
+            } else {
+                return res.status(500).json({ message: 'An error occurred while processing your request' });
+            }
+        } else {
+            return res.status(200).json("Registration successful!");
+        }
+    });
+});
+
 
 app.post("/workouts", (req,res)=>{
     const q = "INSERT INTO workouts (`name`, `type`, `muscle`, `difficulty`, `instructions`, `reps`, `sets`) VALUES (?)"
