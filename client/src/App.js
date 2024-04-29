@@ -1,7 +1,6 @@
-// App.js
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
+import Login from "./pages/Login";
 import Workouts from "./pages/Workouts";
 import Update from "./pages/Update";
 import Add from "./pages/Add";
@@ -28,7 +27,7 @@ function App() {
         <Navbar />
         <div className="container">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Login />} />
             {isLoggedIn ? (
               <>
                 <Route path="/workouts" element={<Workouts />} />
@@ -39,7 +38,7 @@ function App() {
                 <Route path="*" element={<Welcome />} />
               </>
             ) : (
-              <Route path="*" element={<Home />} />
+              <Route path="*" element={<Login />} />
             )}
           </Routes>
         </div>

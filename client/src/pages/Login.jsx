@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 
-const Home = () => {
+const Login = () => {
   const { isLoggedIn, login, logout } = useContext(AuthContext);
   const [successMessage, setSuccessMessage] = useState('');
   const [user, setUser] = useState({
@@ -68,16 +68,18 @@ const Home = () => {
         alert('An error occurred while processing your request!');
       }
     }
-};
-
+  };
 
   const handleLoginClick = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post("http://localhost:8800/login", logUser);
       console.log(res.status);
+      console.log(res.data);
       
       if (res.status === 200) {
+        localStorage.setItem('userid', res.data.userid);
+        console.log(localStorage.getItem('userid'));
         login();
       }
       if (res.status === 401) {
@@ -90,7 +92,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Home</h1>
+      <h1>Signup/Login?</h1>
       {!isLoggedIn && (
         <div>
           <h2>Login</h2>
@@ -114,4 +116,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default Login;

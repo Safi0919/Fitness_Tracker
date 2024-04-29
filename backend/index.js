@@ -61,12 +61,14 @@ app.post("/login", (req, res) => {
             return res.status(500).json({ error: "Database error" });
         }
         if (data.length === 1) {
-            return res.status(200).json({ message: "Login successful" });
+            // If login is successful, return the user ID
+            return res.status(200).json({ userid: data[0].userid });
         } else {
             return res.status(401).json({ error: "Invalid username or password" });
         }
     });
 });
+
 
 
 app.post("/users", (req,res)=>{

@@ -6,6 +6,9 @@ export default function Navbar() {
     const { isLoggedIn, logout } = useContext(AuthContext);
 
     const handleLogout = () => {
+        console.log(localStorage.getItem('userid'));
+        localStorage.setItem('userid', null);
+        console.log(localStorage.getItem('userid'));
         logout();
     };
 
