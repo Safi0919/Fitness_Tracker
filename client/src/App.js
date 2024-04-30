@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Workouts from "./pages/Workouts";
@@ -11,7 +11,6 @@ import AddRoutine from "./pages/AddRoutine"
 import UpdateRoutine from "./pages/UpdateRoutine"
 import "./style.css"
 import Navbar from "./navbar";
-import "./style.css";
 import { AuthContext } from "./AuthContext";
 
 function App() {
@@ -22,8 +21,16 @@ function App() {
   };
 
   const logout = () => {
+    localStorage.removeItem('userid');
     setIsLoggedIn(false);
   };
+
+  useEffect(() => {
+    const userid = localStorage.getItem('userid');
+    if (userid) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
