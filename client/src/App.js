@@ -12,6 +12,7 @@ import UpdateRoutine from "./pages/UpdateRoutine"
 import "./style.css"
 import Navbar from "./navbar";
 import { AuthContext } from "./AuthContext";
+import "./pages/main.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

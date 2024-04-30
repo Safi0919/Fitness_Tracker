@@ -92,7 +92,9 @@ const Login = () => {
 
   return (
     <div>
-      <h1>Signup/Login?</h1>
+      <h1 className="text-center text-5xl">
+        Welcome to the Fitness Tracker
+      </h1>
       {!isLoggedIn && (
         <div>
           <h2>Login</h2>
