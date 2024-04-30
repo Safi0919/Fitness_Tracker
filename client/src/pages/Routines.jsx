@@ -1,24 +1,24 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
+import { React, useEffect, useState} from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 const Routines = () => {
-  const [routines, setroutines] = useState([]);
+  const [routines, setRoutines] = useState([]);
 
-  useEffect(()=>{
-    const fetchAllRoutines = async () =>{
-        try{
-            const res = await axios.get("http://localhost:8800/routines");
-            console.log(res);
-            setroutines(res.data);
-        }catch(err){
-            console.log(err);
-        }
-    }
-    fetchAllRoutines();
-  },[])
+  useEffect(() => {
+    const fetchUserRoutines = async () => {
+      try {
+        // Fetch routines associated with the logged-in user's ID
+        const userId = localStorage.getItem('userid');
+        console.log(userId)
+        const res = await axios.get(`http://localhost:8800/routines/user/${userId}`);
+        setRoutines(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchUserRoutines();
+  }, []); // Fetch routines when the user data changes
 
   const handleDelete = async (id)=>{
     try {

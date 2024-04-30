@@ -9,7 +9,7 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 
-// DB connection
+// DB connection; make sure to set up .env variables
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
   res.json("You are connected to the backend!");
 });
 
-// Can't use get for some reason
+// Can't use get for some reason (?)
 app.get("/users", (req, res) => {
   const q = "SELECT * FROM users";
 
@@ -32,16 +32,35 @@ app.get("/users", (req, res) => {
   });
 });
 
-app.get("/users/:id", (req, res) => {
+// ?
+/*app.get("/users/:id", (req, res) => {
   const userid = req.params.id;
   const q = "SELECT * FROM users WHERE userid = ?";
 
   db.query(q, [userid], (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
+  });*/
+  
+// GPT potential fix for above (?)
+app.get("/users/:id", (req, res) => {
+  const userId = req.params.id; // id? or userid?
+  const q = "SELECT * FROM users WHERE userid = ?"; // Assuming the user id column is named 'id' in your database table
+
+  db.query(q, [userId], (err, data) => {
+    if (err) {
+      console.error("Error retrieving user:", err);
+      return res.status(500).json({ error: "Failed to retrieve user." });
+    }
+    if (data.length === 0) {
+      return res.status(404).json({ error: "User not found." });
+    }
+    return res.json(data[0]); // Assuming you expect only one user with the provided id
   });
 });
 
+
+// Get ALL workouts
 app.get("/workouts", (req,res)=>{
     const q = "SELECT * FROM workouts"
     db.query(q,(err,data)=>{
@@ -50,6 +69,7 @@ app.get("/workouts", (req,res)=>{
     })
 })
 
+// Login Authentication
 app.post("/login", (req, res) => {
     const q = "SELECT * FROM users WHERE username = ? AND password = ?";
     const values = [
@@ -70,8 +90,7 @@ app.post("/login", (req, res) => {
     });
 });
 
-
-
+// Signup; add user to users
 app.post("/users", (req,res)=>{
     const q = "INSERT INTO users (`username`, `email`, `phoneNum`, `password`) VALUES (?)"
     const values = [
@@ -94,7 +113,7 @@ app.post("/users", (req,res)=>{
     });
 });
 
-
+// Get workout with corresponding workout id
 app.get("/workouts/:id", (req, res) => {
   const workoutid = req.params.id;
   const q = "SELECT * FROM workouts WHERE workoutid = ?";
@@ -104,6 +123,7 @@ app.get("/workouts/:id", (req, res) => {
   });
 });
 
+// Add workout to workouts
 app.post("/workouts", (req, res) => {
   const q =
     "INSERT INTO workouts (`name`, `type`, `muscle`, `difficulty`, `instructions`, `reps`, `sets`) VALUES (?)";
@@ -123,6 +143,7 @@ app.post("/workouts", (req, res) => {
   });
 });
 
+// Update workout
 app.put("/workouts/:id", (req, res) => {
   const workoutid = req.params.id;
   const q =
@@ -144,6 +165,7 @@ app.put("/workouts/:id", (req, res) => {
   });
 });
 
+// Delete workout from db and its association within routines
 app.delete("/workouts/:id", (req, res) => {
   const workoutid = req.params.id;
   const q1 = "DELETE FROM routines_to_workouts WHERE workoutid = ?";
@@ -167,7 +189,7 @@ app.delete("/workouts/:id", (req, res) => {
   });
 });
 
-
+// Get ALL routines
 app.get("/routines", (req, res) => {
   const q = "SELECT * FROM routines";
   db.query(q, (err, data) => {
@@ -176,6 +198,47 @@ app.get("/routines", (req, res) => {
   });
 });
 
+// GPT code
+app.get("/routines/user/:userid", (req, res) => {
+  const userid = req.params.userid;
+  const q = `
+    SELECT r.*
+    FROM routines AS r
+    INNER JOIN users_to_routines AS ur ON r.routineid = ur.routineid
+    WHERE ur.userid = ?`;
+
+  db.query(q, [userid], (err, data) => {
+    if (err) {
+      console.error("Error retrieving routines for user:", err);
+      return res.status(500).json(err);
+    }
+    console.log("Routines retrieved successfully for user:", userid);
+    return res.json(data);
+  });
+});
+
+// GPT code 2
+app.post("/user_to_routines", (req, res) => {
+  const { userId, routineId } = req.body;
+
+  // Check if userId and routineId are provided
+  if (!userId || !routineId) {
+    return res.status(400).json({ error: "Both userId and routineId are required." });
+  }
+
+  // Insert into users_to_routines table
+  const q = "INSERT INTO users_to_routines (userid, routineid) VALUES (?, ?)";
+  db.query(q, [userId, routineId], (err, result) => {
+    if (err) {
+      console.error("Error associating routine with user:", err);
+      return res.status(500).json(err);
+    }
+    console.log("Routine associated with user successfully:", result.insertId);
+    return res.status(200).json({ message: "Routine associated with user successfully." });
+  });
+});
+
+// Get routine with corresponding routineid
 app.get("/routines/:id", (req, res) => {
   const routineid = req.params.id;
   const q = "SELECT * FROM routines WHERE routineid = ?";
@@ -185,6 +248,7 @@ app.get("/routines/:id", (req, res) => {
   });
 });
 
+// Add routine
 app.post("/routines", (req, res) => {
   const q = "INSERT INTO routines (`routinename`) VALUES (?)";
 
@@ -198,6 +262,7 @@ app.post("/routines", (req, res) => {
   });
 });
 
+// Add workouts to a routine
 app.post("/routines/:id/workouts", (req, res) => {
   const routineId = req.params.id;
   const workoutIds = req.body.workoutIds;
@@ -216,6 +281,7 @@ app.post("/routines/:id/workouts", (req, res) => {
   res.json({ message: "Workouts added to routine successfully!" });
 });
 
+// Update routine
 app.put("/routines/:id", (req, res) => {
   const routineid = req.params.id;
   const routinename = req.body; // Extract routinename from the request body
@@ -241,7 +307,7 @@ app.put("/routines/:id", (req, res) => {
   });
 });
 
-
+// Delete all previous workouts in routine and update with new workouts
 app.put("/routines/:id/workouts", async (req, res) => {
   const routineId = req.params.id;
   const workoutIds = req.body.workoutIds;
@@ -279,17 +345,12 @@ app.put("/routines/:id/workouts", async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-// Delete routines and its workouts
+// Delete routines AND its workouts
 app.delete("/routines/:id", (req, res) => {
   const routineid = req.params.id;
   const q1 = "DELETE FROM routines_to_workouts WHERE routineid = ?";
-  const q2 = "DELETE FROM routines WHERE routineid = ?";
+  const q2 = "DELETE FROM users_to_routines WHERE routineid = ?";
+  const q3 = "DELETE FROM routines WHERE routineid = ?";
 
   db.query(q1, [routineid], (err1, data1) => {
     if (err1) {
@@ -299,12 +360,19 @@ app.delete("/routines/:id", (req, res) => {
 
     db.query(q2, [routineid], (err2, data2) => {
       if (err2) {
-        console.error("Error deleting routines:", err2);
+        console.error("Error deleting users_to_routines:", err2);
         return res.status(500).json(err2);
       }
 
-      console.log("Routine has been deleted successfully!");
-      return res.json("Routine has been deleted successfully!");
+      db.query(q3, [routineid], (err3, data3) => {
+        if (err3) {
+          console.error("Error deleting routines:", err3);
+          return res.status(500).json(err3);
+        }
+
+        console.log("Routine and associated data have been deleted successfully!");
+        return res.json("Routine and associated data have been deleted successfully!");
+      });
     });
   });
 });

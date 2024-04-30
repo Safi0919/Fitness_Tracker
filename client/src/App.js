@@ -39,7 +39,7 @@ function App() {
                 <Route path="/workouts/add" element={<Add />} />
                 <Route path="/routines/add" element={<AddRoutine/>}/>
                 <Route path="/routines/update/:id" element={<UpdateRoutine/>}/>
-                <Route path="/workouts/update/:id" element={<UpdateWorkout />} />
+                <Route path="/workouts/update/:id" element={<UpdateWorkout/>} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="*" element={<Welcome />} />
               </>

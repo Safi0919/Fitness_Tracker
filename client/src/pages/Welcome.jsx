@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 const Welcome = () => {
     const [users, setusers] = useState([]);
 
+    // Retrieves all users (Remove/Change)
     useEffect(()=>{
         const fetchAllUsers = async () =>{
             try{
@@ -25,9 +26,9 @@ const Welcome = () => {
   return (
     <div>
         <h1>Welcome!</h1>
-        <div className="workouts">
+        <div className="user">
             {users.map(user=>(
-                <div className="workout">
+                <div className="user">
                     <h2>{user.username}</h2>
                     <h2>{user.email}</h2>
                     <h2>{user.phoneNum}</h2>

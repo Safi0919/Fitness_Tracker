@@ -1,11 +1,10 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
+import { React, useEffect, useState} from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 
 const AddRoutine = () => {
+    const userId = localStorage.getItem('userid')
+    console.log(userId)
     const [routine, setRoutine] = useState({
       routinename:""
     });
@@ -13,7 +12,7 @@ const AddRoutine = () => {
     const [workouts, setworkouts] = useState([]);
     const [checkedWorkoutIds, setCheckedWorkoutIds] = useState([])
 
-    // Fetch all workouts  to add to routine
+    // Fetch all workouts in DB that can be added to routine
     useEffect(()=>{
       const fetchAllWorkouts = async () =>{
           try{
@@ -45,30 +44,37 @@ const AddRoutine = () => {
       });
   };
 
-    const handleClick = async (e) => {
-      e.preventDefault();
-      try {
-        // Create routine and get the new routine ID
-        const routineResponse = await axios.post(
-          "http://localhost:8800/routines",
-          routine
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      // Create routine and retrieve the routine ID created
+      const routineResponse = await axios.post(
+        "http://localhost:8800/routines",
+        routine
+      );
+      console.log(routineResponse);
+      const routineId = routineResponse.data.id;
+
+      // Associate the routine with the logged-in user
+      await axios.post(
+        `http://localhost:8800/user_to_routines`,
+        { userId: userId, routineId: routineId }
+      );
+
+      // Assuming you are associating workouts immediately after creating the routine
+      if (checkedWorkoutIds.length > 0) {
+        await axios.post(
+          `http://localhost:8800/routines/${routineId}/workouts`,
+          { workoutIds: checkedWorkoutIds }
         );
-        console.log(routineResponse);
-        const routineId = routineResponse.data.id;
-
-        // Assuming you are associating workouts immediately after creating the routine
-        if (checkedWorkoutIds.length > 0) {
-          await axios.post(
-            `http://localhost:8800/routines/${routineId}/workouts`,
-            { workoutIds: checkedWorkoutIds }
-          );
-        }
-
-        navigate("/routines");
-      } catch (err) {
-        console.error("Error creating routine or adding workouts: ", err);
       }
-    };
+
+      navigate("/routines");
+    } catch (err) {
+      console.error("Error creating routine or adding workouts: ", err);
+    }
+  };
+
 
     console.log(routine);
 
@@ -111,7 +117,7 @@ const AddRoutine = () => {
         </div>
     </div>
   )
-  
+
 }
 
 export default AddRoutine

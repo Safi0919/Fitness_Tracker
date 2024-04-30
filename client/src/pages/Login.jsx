@@ -3,7 +3,7 @@ import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 
 const Login = () => {
-  const { isLoggedIn, login, logout } = useContext(AuthContext);
+  const { isLoggedIn, login } = useContext(AuthContext);
   const [successMessage, setSuccessMessage] = useState('');
   const [user, setUser] = useState({
     username: "",
@@ -76,7 +76,7 @@ const Login = () => {
       const res = await axios.post("http://localhost:8800/login", logUser);
       console.log(res.status);
       console.log(res.data);
-      
+
       if (res.status === 200) {
         localStorage.setItem('userid', res.data.userid);
         console.log(localStorage.getItem('userid'));
