@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 
 const Register = () => {
     const [successMessage, setSuccessMessage] = useState('');
@@ -17,7 +18,11 @@ const Register = () => {
 
     const handleClick = async (e) => {
         e.preventDefault();
-    
+
+        if (user.username.length < 4) {
+            setSuccessMessage('Username must be at least 4 characters long!');
+          return;
+        }
         if (!user.email.includes('@')) {
             setSuccessMessage('Invalid email.');
           return;
@@ -28,10 +33,6 @@ const Register = () => {
         }
         if (user.password.length < 8) {
             setSuccessMessage('Password must be at least 8 characters long.');
-          return;
-        }
-        if (user.username.length < 4) {
-            setSuccessMessage('Username must be at least 4 characters long!');
           return;
         }
     
@@ -68,8 +69,9 @@ const Register = () => {
           <input type="text" placeholder='Email' value={user.email} onChange={handleChange} name="email" className='mb-4 border-2 rounded-md text-xl'/>
           <input type="text" placeholder='Phone Number' value={user.phoneNum} onChange={handleChange} name="phoneNum" className='mb-4 border-2 rounded-md text-xl'/>
           <input type="password" placeholder='Password' value={user.password} onChange={handleChange} name="password" className='border-2 rounded-md text-xl'/>
-          {successMessage && <p className='text-red-600'>{successMessage}</p>}
+          {successMessage && <p className={successMessage === 'Registration successful!' ? 'text-white' : 'text-red-600'}>{successMessage}</p>}
           <button onClick={handleClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl border-2 border-blue-500 hover:border-blue-700 w-40 mb-5 mt-10">Sign Up</button>
+          <Link to="/" className='text-white mb-3'>Return to Home Page</Link>
         </div>
     </div>
   )

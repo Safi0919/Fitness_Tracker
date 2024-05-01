@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../AuthContext';
+import { Link } from 'react-router-dom'
 
 const Login = () => {
     const { isLoggedIn, login } = useContext(AuthContext);
@@ -42,6 +43,7 @@ const Login = () => {
             <input type="text" placeholder='Username' onChange={handleLoginChange} name="username" className='mb-4 border-2 rounded-md text-xl'/>
             <input type="password" placeholder='Password' onChange={handleLoginChange} name="password" className='mb-10 border-2 rounded-md text-xl'/>
             <button onClick={handleLoginClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl border-2 border-blue-500 hover:border-blue-700 w-40 mb-5">Login</button>
+            <Link to="/" className='text-white mb-3'>Return to Home Page</Link>
         </div>  
     </div>
 
