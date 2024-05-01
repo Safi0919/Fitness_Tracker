@@ -46,9 +46,9 @@ function App() {
             <Route path="/register" element={<Register />} />
             {isLoggedIn ? (
               <>
-                <Route path="/" element={<Welcome />} />
-                <Route path="/login" element={<Welcome />} />\
-                <Route path="/register" element={<Welcome />} />
+                <Route path="/" element={<UserPage />} />
+                <Route path="/login" element={<UserPage />} />\
+                <Route path="/register" element={<UserPage />} />
                 <Route path="/workouts" element={<Workouts />} />
                 <Route path="/routines" element={<Routines />} />
                 <Route path="/workouts/add" element={<Add />} />
