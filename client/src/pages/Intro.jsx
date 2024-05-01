@@ -1,12 +1,10 @@
 import React, { useContext, useState } from 'react';
-import axios from 'axios';
-import { AuthContext } from '../AuthContext';
 import { Link } from 'react-router-dom';
 
 const Intro = () => {
   return (
     <div className>
-      <h1 className="text-center text-5xl font-bold">
+      <h1 className="text-center text-5xl font-bold mt-3">
         Welcome to the Fitness Tracker!
       </h1>
         <div className="flex items-center justify-center min-h-screen">

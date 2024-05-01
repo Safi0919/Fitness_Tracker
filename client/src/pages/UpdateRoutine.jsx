@@ -31,6 +31,7 @@ const UpdateRoutine = () => {
       fetchAllWorkouts();
     },[])
 
+    // Fetch the previous routine name
     useEffect(() => {
         const fetchRoutine = async () => {
           try {

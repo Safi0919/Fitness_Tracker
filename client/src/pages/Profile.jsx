@@ -1,8 +1,8 @@
 import React from 'react'
-import { useEffect } from 'react'
+//import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
+//import { Link, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 
 // Might delete later, using User page to grab data
@@ -12,7 +12,7 @@ const Profile = () => {
       username:""
     });
 
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const location = useLocation();
 
     const userid = location.pathname.split("/")[1];
