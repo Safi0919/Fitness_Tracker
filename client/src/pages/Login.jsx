@@ -3,117 +3,49 @@ import axios from 'axios';
 import { AuthContext } from '../AuthContext';
 
 const Login = () => {
-  const { isLoggedIn, login } = useContext(AuthContext);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-    email: "",
-    phoneNum: "",
-  });
+    const { isLoggedIn, login } = useContext(AuthContext);
+    const [successMessage, setSuccessMessage] = useState('');
+    const [logUser, setLogUser] = useState({
+        username: "",
+        password: ""
+    });
 
-  const [logUser, setLogUser] = useState({
-    username: "",
-    password: ""
-  });
+    const handleLoginChange = (e) => {
+        const { name, value } = e.target;
+        setLogUser(prev => ({ ...prev, [name]: value }));
+    };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUser(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleLoginChange = (e) => {
-    const { name, value } = e.target;
-    setLogUser(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleClick = async (e) => {
-    e.preventDefault();
-
-    if (!user.email.includes('@')) {
-      alert('Invalid email format!');
-      return;
-    }
-    if (user.phoneNum.length !== 10) {
-      alert('Phone number must be 10 characters long!');
-      return;
-    }
-    if (user.password.length < 8) {
-      alert('Password must be at least 8 characters long!');
-      return;
-    }
-    if (user.username.length < 4) {
-      alert('Username must be at least 4 characters long!');
-      return;
-    }
-
-    try {
-      const res = await axios.post("http://localhost:8800/users", user);
-      console.log(res.data);
-
-      if (res.status === 200) {
-        setSuccessMessage('Registration successful!');
-        setUser({
-          username: "",
-          password: "",
-          email: "",
-          phoneNum: "",
-        });
-      }
-    } catch (err) {
-      if (err.response && err.response.status === 400) {
-        setSuccessMessage('Username already exists!');
-      } else {
-        console.log(err);
-        alert('An error occurred while processing your request!');
-      }
-    }
-  };
-
-  const handleLoginClick = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:8800/login", logUser);
-      console.log(res.status);
-      console.log(res.data);
-
-      if (res.status === 200) {
-        localStorage.setItem('userid', res.data.userid);
-        console.log(localStorage.getItem('userid'));
-        login();
-      }
-      if (res.status === 401) {
-        alert("Invalid username or password!");
-      }
-    } catch (err) {
-      console.log(err.response.data);
-    }
-  };
+    const handleLoginClick = async (e) => {
+        e.preventDefault();
+        try {
+          const res = await axios.post("http://localhost:8800/login", logUser);
+          console.log(res.status);
+          console.log(res.data);
+    
+          if (res.status === 200) {
+            localStorage.setItem('userid', res.data.userid);
+            console.log(localStorage.getItem('userid'));
+            login();
+          }
+          if (res.status === 401) {
+            alert("Invalid username or password!");
+          }
+        } catch (err) {
+          console.log(err.response.data);
+        }
+      };
 
   return (
-    <div>
-      <h1>Signup/Login?</h1>
-      {!isLoggedIn && (
-        <div>
-          <h2>Login</h2>
-          <input type="text" placeholder='Username' onChange={handleLoginChange} name="username" />
-          <input type="password" placeholder='Password' onChange={handleLoginChange} name="password" />
-          <button onClick={handleLoginClick}>Login</button>
-        </div>
-      )}
-      {!isLoggedIn && (
-        <div>
-          <h2>Sign Up</h2>
-          <input type="text" placeholder='Username' value={user.username} onChange={handleChange} name="username" />
-          <input type="text" placeholder='Email' value={user.email} onChange={handleChange} name="email" />
-          <input type="text" placeholder='Phone Number' value={user.phoneNum} onChange={handleChange} name="phoneNum" />
-          <input type="password" placeholder='Password' value={user.password} onChange={handleChange} name="password" />
-          <button onClick={handleClick}>Sign Up</button>
-          {successMessage && <p>{successMessage}</p>}
-        </div>
-      )}
+    <div className="flex items-center justify-center h-screen">
+        <div className="flex flex-col justify-center items-center w-1/2 border-2 rounded-xl border-black bg-gray-600">
+            <h2 className="text-center text-4xl font-bold mt-5 mb-10">Login</h2>
+            <input type="text" placeholder='Username' onChange={handleLoginChange} name="username" className='mb-4 border-2 rounded-md text-xl'/>
+            <input type="password" placeholder='Password' onChange={handleLoginChange} name="password" className='mb-10 border-2 rounded-md text-xl'/>
+            <button onClick={handleLoginClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl border-2 border-blue-500 hover:border-blue-700 w-40 mb-5">Login</button>
+        </div>  
     </div>
-  );
+
+  )
 }
 
-export default Login;
+export default Login

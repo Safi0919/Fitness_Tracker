@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
+import Intro from "./pages/Intro";
 import Workouts from "./pages/Workouts";
 import UpdateWorkout from "./pages/UpdateWorkout";
 import Add from "./pages/Add";
@@ -9,9 +9,12 @@ import Profile from "./pages/Profile";
 import Routines from "./pages/Routines";
 import AddRoutine from "./pages/AddRoutine"
 import UpdateRoutine from "./pages/UpdateRoutine"
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 import "./style.css"
 import Navbar from "./navbar";
 import { AuthContext } from "./AuthContext";
+import "./pages/main.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,11 +39,16 @@ function App() {
     <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
       <>
         <Navbar />
-        <div className="container">
+        <div>
           <Routes>
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<Intro />} />
+            <Route path="/login" element={<Login />} />\
+            <Route path="/register" element={<Register />} />
             {isLoggedIn ? (
               <>
+                <Route path="/" element={<Welcome />} />
+                <Route path="/login" element={<Welcome />} />\
+                <Route path="/register" element={<Welcome />} />
                 <Route path="/workouts" element={<Workouts />} />
                 <Route path="/routines" element={<Routines />} />
                 <Route path="/workouts/add" element={<Add />} />
@@ -51,7 +59,7 @@ function App() {
                 <Route path="*" element={<UserPage />} />
               </>
             ) : (
-              <Route path="*" element={<Login />} />
+              <Route path="*" element={<Intro />} />
             )}
           </Routes>
         </div>

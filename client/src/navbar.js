@@ -22,7 +22,6 @@ export default function Navbar() {
                     <NavLink to="/users">Profile</NavLink>
                     <NavLink to="/routines">Routines</NavLink>
                     <NavLink to="/workouts">Workouts</NavLink>
-                    {/* Use handleLogout function when logout is clicked */}
                     <NavLink to="/" onClick={handleLogout}>Logout</NavLink>
                 </ul>
             )}
