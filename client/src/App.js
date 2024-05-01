@@ -32,7 +32,6 @@ function App() {
         <Navbar />
         <div>
           <Routes>
-            <Route path="/" element={<Intro />} />
             {isLoggedIn ? (
               <>
                 <Route path="/" element={<UserPage />} />
@@ -51,6 +50,7 @@ function App() {
             ) : (
               <>
                 <Route path="*" element={<Intro />} />
+                <Route path="/" element={<Intro />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
               </>
