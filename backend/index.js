@@ -22,27 +22,8 @@ app.get("/", (req, res) => {
   res.json("You are connected to the backend!");
 });
 
-// Can't use get for some reason (?)
-app.get("/users", (req, res) => {
-  const q = "SELECT * FROM users";
 
-  db.query(q, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data);
-  });
-});
-
-// ?
-/*app.get("/users/:id", (req, res) => {
-  const userid = req.params.id;
-  const q = "SELECT * FROM users WHERE userid = ?";
-
-  db.query(q, [userid], (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data);
-  });*/
-
-// potential fix for above (?)
+// GET user; used for profile page
 app.get("/users/:id", (req, res) => {
   const userId = req.params.id;
   const q = "SELECT * FROM users WHERE userid = ?";
@@ -59,7 +40,51 @@ app.get("/users/:id", (req, res) => {
   });
 });
 
-// Get ALL workouts
+// Login Authentication
+app.post("/login", (req, res) => {
+  const q = "SELECT * FROM users WHERE username = ? AND password = ?";
+  const values = [
+      req.body.username,
+      req.body.password
+  ];
+
+  db.query(q, values, (err, data) => {
+      if (err) {
+          return res.status(500).json({ error: "Database error" });
+      }
+      if (data.length === 1) {
+          // If login is successful, return the user ID
+          return res.status(200).json({ userid: data[0].userid });
+      } else {
+          return res.status(401).json({ error: "Invalid username or password" });
+      }
+  });
+});
+
+// Signup; add user to users
+app.post("/users", (req,res)=>{
+  const q = "INSERT INTO users (`username`, `email`, `phoneNum`, `password`) VALUES (?)"
+  const values = [
+      req.body.username,
+      req.body.email,
+      req.body.phoneNum,
+      req.body.password
+  ];
+
+  db.query(q, [values], (err, data) => {
+      if (err) {
+          if (err.code === 'ER_DUP_ENTRY') {
+              return res.status(400).json({ message: 'Username already exists!' });
+          } else {
+              return res.status(500).json({ message: 'An error occurred while processing your request' });
+          }
+      } else {
+          return res.status(200).json("Registration successful!");
+      }
+  });
+});
+
+// GET ALL workouts; used in Workouts page
 app.get("/workouts", (req,res)=>{
     const q = "SELECT * FROM workouts"
     db.query(q,(err,data)=>{
@@ -68,51 +93,7 @@ app.get("/workouts", (req,res)=>{
     })
 })
 
-// Login Authentication
-app.post("/login", (req, res) => {
-    const q = "SELECT * FROM users WHERE username = ? AND password = ?";
-    const values = [
-        req.body.username,
-        req.body.password
-    ];
-
-    db.query(q, values, (err, data) => {
-        if (err) {
-            return res.status(500).json({ error: "Database error" });
-        }
-        if (data.length === 1) {
-            // If login is successful, return the user ID
-            return res.status(200).json({ userid: data[0].userid });
-        } else {
-            return res.status(401).json({ error: "Invalid username or password" });
-        }
-    });
-});
-
-// Signup; add user to users
-app.post("/users", (req,res)=>{
-    const q = "INSERT INTO users (`username`, `email`, `phoneNum`, `password`) VALUES (?)"
-    const values = [
-        req.body.username,
-        req.body.email,
-        req.body.phoneNum,
-        req.body.password
-    ];
-
-    db.query(q, [values], (err, data) => {
-        if (err) {
-            if (err.code === 'ER_DUP_ENTRY') {
-                return res.status(400).json({ message: 'Username already exists!' });
-            } else {
-                return res.status(500).json({ message: 'An error occurred while processing your request' });
-            }
-        } else {
-            return res.status(200).json("Registration successful!");
-        }
-    });
-});
-
-// Get workout with corresponding workout id
+// GET workout with corresponding workout id
 app.get("/workouts/:id", (req, res) => {
   const workoutid = req.params.id;
   const q = "SELECT * FROM workouts WHERE workoutid = ?";
@@ -122,7 +103,7 @@ app.get("/workouts/:id", (req, res) => {
   });
 });
 
-// Add workout to workouts
+// ADD workout to workouts
 app.post("/workouts", (req, res) => {
   const q =
     "INSERT INTO workouts (`name`, `type`, `muscle`, `difficulty`, `instructions`, `reps`, `sets`) VALUES (?)";
@@ -146,7 +127,7 @@ app.post("/workouts", (req, res) => {
   });
 });
 
-// Update workout
+// UPDATE workout
 app.put("/workouts/:id", (req, res) => {
   const workoutid = req.params.id;
   const q =
@@ -168,7 +149,7 @@ app.put("/workouts/:id", (req, res) => {
   });
 });
 
-// Delete workout from db and its association within routines
+// DELETE workout from db and its association within routines
 app.delete("/workouts/:id", (req, res) => {
   const workoutid = req.params.id;
   const q1 = "DELETE FROM routines_to_workouts WHERE workoutid = ?";
@@ -200,7 +181,7 @@ app.delete("/workouts/:id", (req, res) => {
   });
 });
 
-// Get ALL routines, not needed anymore
+// GET all routines, not needed anymore 
 app.get("/routines", (req, res) => {
   const q = "SELECT * FROM routines";
   db.query(q, (err, data) => {
@@ -209,9 +190,7 @@ app.get("/routines", (req, res) => {
   });
 });
 
-
-
-// Retrieves all routines created by user
+// GET all routines created by user
 app.get("/routines/user/:userid", (req, res) => {
   const userid = req.params.userid;
   const q = `
@@ -230,7 +209,7 @@ app.get("/routines/user/:userid", (req, res) => {
   });
 });
 
-// Retrieves all workouts created by user
+// GET all workouts created by user
 app.get("/workouts/user/:userid", (req, res) => {
   const userid = req.params.userid;
   const q = `
@@ -249,28 +228,8 @@ app.get("/workouts/user/:userid", (req, res) => {
   });
 });
 
-// Add users_to_routines
-app.post("/users_to_routines", (req, res) => {
-  const { userId, routineId } = req.body;
 
-  // Check if userId and routineId are provided
-  if (!userId || !routineId) {
-    return res.status(400).json({ error: "Both userId and routineId are required." });
-  }
-
-  // Insert into users_to_routines table
-  const q = "INSERT INTO users_to_routines (userid, routineid) VALUES (?, ?)";
-  db.query(q, [userId, routineId], (err, result) => {
-    if (err) {
-      console.error("Error associating routine with user:", err);
-      return res.status(500).json(err);
-    }
-    console.log("Routine associated with user successfully:", routineId);
-    return res.status(200).json({ message: "Routine associated with user successfully." });
-  });
-});
-
-// Add workouts_to_users
+// (ADD) Connect Workout and User to workouts_to_users table
 app.post("/workouts_to_users", (req, res) => {
   const { userId, workoutId } = req.body;
 
@@ -291,7 +250,47 @@ app.post("/workouts_to_users", (req, res) => {
   });
 });
 
-// Get routine name
+// (ADD) Connect User and Routine to users_to_routines table
+app.post("/users_to_routines", (req, res) => {
+  const { userId, routineId } = req.body;
+
+  // Checks if userId and routineId are provided
+  if (!userId || !routineId) {
+    return res.status(400).json({ error: "Both userId and routineId are required." });
+  }
+
+  // Inserts into users_to_routines table
+  const q = "INSERT INTO users_to_routines (userid, routineid) VALUES (?, ?)";
+  db.query(q, [userId, routineId], (err, result) => {
+    if (err) {
+      console.error("Error associating routine with user:", err);
+      return res.status(500).json(err);
+    }
+    console.log("Routine associated with user successfully:", routineId);
+    return res.status(200).json({ message: "Routine associated with user successfully." });
+  });
+});
+
+// (ADD) Connect workouts to a routine
+app.post("/routines/:id/workouts", (req, res) => {
+  const routineId = req.params.id;
+  const workoutIds = req.body.workoutIds;
+
+  workoutIds.forEach((workoutId) => {
+    const q =
+      "INSERT INTO routines_to_workouts (routineid, workoutid) VALUES (?, ?)";
+    db.query(q, [routineId, workoutId], (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(400).json(err);
+      }
+    });
+  });
+
+  res.json({ message: "Workouts added to routine successfully!" });
+});
+
+// GET routine name
 app.get("/routines/:id", (req, res) => {
   const routineid = req.params.id;
   const q = "SELECT * FROM routines WHERE routineid = ?";
@@ -301,31 +300,11 @@ app.get("/routines/:id", (req, res) => {
   });
 });
 
-/*
-// Get routine with corresponding routineid and associated workouts
-app.get("/routines/:id", (req, res) => {
-  const routineid = req.params.id;
-  const routineQuery = "SELECT * FROM routines WHERE routineid = ?";
-  const workoutsQuery = "SELECT * FROM workouts WHERE routineid = ?";
-
-  db.query(routineQuery, [routineid], (err, routineData) => {
-    if (err) return res.json(err);
-
-    db.query(workoutsQuery, [routineid], (err, workoutsData) => {
-      if (err) return res.json(err);
-
-      const routine = routineData[0] || {};
-      const workouts = workoutsData || [];
-
-      return res.json({ routine, workouts });
-    });
-  });
-});*/
-
-// Retrieve all routines' workouts (used for RoutinePage)
-// Update naming convention later? '/routines/workouts/:id'
+// GET all workouts specified by a routine
 app.get("/routines/workouts/:id", (req, res) => {
   const routineId = req.params.id;
+  
+  // Utilizes routines_to_workouts table
   const workoutsQuery = `
     SELECT w.*
     FROM workouts AS w
@@ -353,8 +332,7 @@ app.get("/routines/workouts/:id", (req, res) => {
   });
 });
 
-
-// Add routine
+// ADD routine
 app.post("/routines", (req, res) => {
   const q = "INSERT INTO routines (`routinename`) VALUES (?)";
 
@@ -368,27 +346,7 @@ app.post("/routines", (req, res) => {
   });
 });
 
-// Add workouts to a routine
-app.post("/routines/:id/workouts", (req, res) => {
-  const routineId = req.params.id;
-  const workoutIds = req.body.workoutIds;
-
-  workoutIds.forEach((workoutId) => {
-    const q =
-      "INSERT INTO routines_to_workouts (routineid, workoutid) VALUES (?, ?)";
-    db.query(q, [routineId, workoutId], (err, result) => {
-      if (err) {
-        console.error(err);
-        return res.status(400).json(err);
-      }
-    });
-  });
-
-  res.json({ message: "Workouts added to routine successfully!" });
-});
-
-
-// Update routine
+// UPDATE routine name
 app.put("/routines/:id", (req, res) => {
   const routineid = req.params.id;
   const routinename = req.body; // Extract routinename from the request body
@@ -415,7 +373,8 @@ app.put("/routines/:id", (req, res) => {
 });
 
 
-// Delete all previous workouts in routine and update with new workouts
+// UPDATE routine with new workouts (deletes previous workouts first!)
+// Uses transaction
 app.put("/routines/:id/workouts", async (req, res) => {
   const routineId = req.params.id;
   const workoutIds = req.body.workoutIds;
@@ -453,7 +412,7 @@ app.put("/routines/:id/workouts", async (req, res) => {
   }
 });
 
-// Delete routine AND its workout/userid association
+// DELETE routine AND all association with workouts and its user
 app.delete("/routines/:id", (req, res) => {
   const routineid = req.params.id;
   const q1 = "DELETE FROM routines_to_workouts WHERE routineid = ?";

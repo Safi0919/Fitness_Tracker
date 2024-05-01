@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Intro, Workouts, UpdateWorkout, AddWorkout, UserPage, Profile, Routines, AddRoutine, UpdateRoutine, Register, Login } from "./pages/Pages.js";
+import { Intro, Workouts, UpdateWorkout, AddWorkout, UserPage, Routines, AddRoutine, UpdateRoutine, Register, Login } from "./pages/Pages.js";
 import Navbar from "./navbar";
 import { AuthContext } from "./AuthContext";
 import "./style.css";
@@ -43,7 +43,6 @@ function App() {
                 <Route path="/routines/add" element={<AddRoutine/>}/>
                 <Route path="/routines/update/:id" element={<UpdateRoutine/>}/>
                 <Route path="/workouts/update/:id" element={<UpdateWorkout/>} />
-                <Route path="/profile" element={<Profile />} />
                 <Route path="/routines/:id" element={<RoutinePage />}/>
                 <Route path="*" element={<UserPage />} />
               </>

@@ -1,6 +1,7 @@
 import { React, useEffect, useState} from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const AddRoutine = () => {
     const userId = localStorage.getItem('userid')
@@ -161,14 +162,14 @@ const AddRoutine = () => {
       </div>
       <button
         onClick={handleClick}
-        className="bg-white hover:bg-black text-black hover:text-white font-bold py-2 px-4 rounded transition-colors duration-300 border border-black mt-5"
+        className="inline-block bg-white hover:bg-black text-black hover:text-white font-bold py-2 px-4 rounded transition-colors duration-300 border border-black mt-5"
       >
         Create Routine
       </button>
-      <div className="text-med text-gray-900 mt-5">
-        {/* Display checked workout IDs for debugging */}
-        Checked workout IDs: {checkedWorkoutIds.join(", ")}
-      </div>
+
+      <button className="inline-block bg-white hover:bg-black text-black hover:text-white font-bold py-2 px-4 rounded transition-colors duration-300 border border-black mt-5 ml-4">
+        <Link to="/users">Back to Profile</Link>
+      </button>
     </div>
   );
 
