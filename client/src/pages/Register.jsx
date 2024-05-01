@@ -64,9 +64,9 @@ const Register = () => {
     <div className="flex items-center justify-center h-screen">
         <div className="flex flex-col justify-center items-center w-1/2 border-2 rounded-xl border-black bg-gray-600">
         <h2 className="text-center text-4xl font-bold mt-5 mb-10">Sign Up</h2>
-          <input type="text" placeholder='Username' value={user.username} onChange={handleChange} name="username" className='mb-10 border-2 rounded-md text-xl'/>
-          <input type="text" placeholder='Email' value={user.email} onChange={handleChange} name="email" className='mb-10 border-2 rounded-md text-xl'/>
-          <input type="text" placeholder='Phone Number' value={user.phoneNum} onChange={handleChange} name="phoneNum" className='mb-10 border-2 rounded-md text-xl'/>
+          <input type="text" placeholder='Username' value={user.username} onChange={handleChange} name="username" className='mb-4 border-2 rounded-md text-xl'/>
+          <input type="text" placeholder='Email' value={user.email} onChange={handleChange} name="email" className='mb-4 border-2 rounded-md text-xl'/>
+          <input type="text" placeholder='Phone Number' value={user.phoneNum} onChange={handleChange} name="phoneNum" className='mb-4 border-2 rounded-md text-xl'/>
           <input type="password" placeholder='Password' value={user.password} onChange={handleChange} name="password" className='border-2 rounded-md text-xl'/>
           {successMessage && <p className='text-red-600'>{successMessage}</p>}
           <button onClick={handleClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl border-2 border-blue-500 hover:border-blue-700 w-40 mb-5 mt-10">Sign Up</button>
