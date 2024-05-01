@@ -40,7 +40,6 @@ const Register = () => {
             console.log(user);
             const res = await axios.post("http://localhost:8800/users", user);
             console.log(res.data);
-          
     
           if (res.status === 200) {
             setSuccessMessage('Registration successful!');
