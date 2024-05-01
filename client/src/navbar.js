@@ -18,7 +18,6 @@ export default function Navbar() {
 
             {isLoggedIn && (
                 <ul>
-                    <NavLink to="/">Home</NavLink>
                     <NavLink to="/users">Profile</NavLink>
                     <NavLink to="/routines">Routines</NavLink>
                     <NavLink to="/workouts">Workouts</NavLink>
