@@ -35,7 +35,9 @@ const Routines = () => {
         <div className="routine">
             {routines.map(routine=>(
                 <div className="routine" key={routine.routineid}>
-                    <h2>{routine.routinename}</h2>
+                <Link to={`/routines/${routine.routineid}`}>
+                  <h2 className="routine-title">{routine.routinename}</h2>
+                </Link>
                     <button className="delete" onClick={()=>handleDelete(routine.routineid)}>Delete</button>
                     <button className="update"><Link to={`/routines/update/${routine.routineid}`}>Update</Link></button>
                 </div>

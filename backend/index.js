@@ -230,7 +230,7 @@ app.get("/routines/user/:userid", (req, res) => {
   });
 });
 
-// Tetrieves all routines created by user
+// Retrieves all workouts created by user
 app.get("/workouts/user/:userid", (req, res) => {
   const userid = req.params.userid;
   const q = `
@@ -291,16 +291,17 @@ app.post("/workouts_to_users", (req, res) => {
   });
 });
 
-// Get routine with corresponding routineid
-/*app.get("/routines/:id", (req, res) => {
+// Get routine name
+app.get("/routines/:id", (req, res) => {
   const routineid = req.params.id;
   const q = "SELECT * FROM routines WHERE routineid = ?";
   db.query(q, [routineid], (err, data) => {
     if (err) return res.json(err);
     return res.json(data[0] || {});
   });
-});*/
+});
 
+/*
 // Get routine with corresponding routineid and associated workouts
 app.get("/routines/:id", (req, res) => {
   const routineid = req.params.id;
@@ -319,7 +320,39 @@ app.get("/routines/:id", (req, res) => {
       return res.json({ routine, workouts });
     });
   });
+});*/
+
+// Retrieve all routines' workouts (used for RoutinePage)
+// Update naming convention later? '/routines/workouts/:id'
+app.get("/routines/workouts/:id", (req, res) => {
+  const routineId = req.params.id;
+  const workoutsQuery = `
+    SELECT w.*
+    FROM workouts AS w
+    INNER JOIN routines_to_workouts AS rw ON w.workoutid = rw.workoutid
+    WHERE rw.routineid = ?;
+  `;
+  const routineNameQuery = "SELECT routinename FROM routines WHERE routineid = ?";
+
+  db.query(routineNameQuery, [routineId], (routineErr, routineData) => {
+    if (routineErr) {
+      console.error("Error retrieving routine name:", routineErr);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+
+    const routineName = routineData.length > 0 ? routineData[0].routinename : null;
+
+    db.query(workoutsQuery, [routineId], (workoutsErr, workoutsData) => {
+      if (workoutsErr) {
+        console.error("Error retrieving workouts:", workoutsErr);
+        return res.status(500).json({ error: "Internal server error" });
+      }
+
+      return res.json({ routineName, workouts: workoutsData });
+    });
+  });
 });
+
 
 // Add routine
 app.post("/routines", (req, res) => {
@@ -354,6 +387,7 @@ app.post("/routines/:id/workouts", (req, res) => {
   res.json({ message: "Workouts added to routine successfully!" });
 });
 
+
 // Update routine
 app.put("/routines/:id", (req, res) => {
   const routineid = req.params.id;
@@ -379,6 +413,7 @@ app.put("/routines/:id", (req, res) => {
     return res.json({ message: "Routine has been updated successfully!" });
   });
 });
+
 
 // Delete all previous workouts in routine and update with new workouts
 app.put("/routines/:id/workouts", async (req, res) => {

@@ -5,6 +5,7 @@ import Navbar from "./navbar";
 import { AuthContext } from "./AuthContext";
 import "./style.css";
 import "./pages/main.css";
+import RoutinePage from "./pages/RoutinePage"
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/routines/update/:id" element={<UpdateRoutine/>}/>
                 <Route path="/workouts/update/:id" element={<UpdateWorkout/>} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/routines/:id" element={<RoutinePage />}/>
                 <Route path="*" element={<UserPage />} />
               </>
             ) : (

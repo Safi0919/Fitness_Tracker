@@ -2,7 +2,8 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom'
+import { Link, Route, Routes } from 'react-router-dom'
+import RoutinePage from './RoutinePage'
 //import RoutinePage from './RoutinePage'
 
 const UserPage = () => {
@@ -63,7 +64,7 @@ const UserPage = () => {
           }
         };
         fetchUserRoutines();
-      }, []); // Fetch routines when the user data changes
+      }, [userId]); // Fetch routines when the user data changes
 
       const deleteRoutine = async (id)=>{
         try {
@@ -76,34 +77,35 @@ const UserPage = () => {
 
   return (
     <div>
-        <h1>Welcome, {user.username}!</h1>
-        <div>
-            {user && (
-                <div className="user">
-                    <h2>Email: {user.email}</h2>
-                    <h2>Phone #: {user.phoneNum}</h2>
-                    {/*<h2>Password: {user.password}</h2>*/}
-                    {/*<button className="navigate"><Link to={`${user.username}/`}>Navigate</Link></button> */}
-                </div>
-            )}
-        </div>
-
+    <h1>Welcome, {user.username}!</h1>
     <div>
+        {user && (
+            <div className="user">
+                <h2>Email: {user.email}</h2>
+                <h2>Phone #: {user.phoneNum}</h2>
+                {/*<h2>Password: {user.password}</h2>*/}
+                {/*<button className="navigate"><Link to={`${user.username}/`}>Navigate</Link></button> */}
+            </div>
+        )}
+    </div>
+
     <div>
         <h1>Your Routines</h1>
         <div className="routine">
-            {routines.map(routine=>(
-                <div className="routine" key={routine.routineid}>
-                    <Link to={`/routines/${routine.routineid}`}>
-                    <h2 className = "routine-title">{routine.routinename}</h2>
-                    </Link>
-                    <button className="delete" onClick={()=>deleteRoutine(routine.routineid)}>Delete</button>
-                    <button className="update"><Link to={`/routines/update/${routine.routineid}`}>Update</Link></button>
-                </div>
-            ))}
+          {routines.map(routine => (
+            <div className="routine" key={routine.routineid}>
+              <Link to={`/routines/${routine.routineid}`}>
+                <h2 className="routine-title">{routine.routinename}</h2>
+              </Link>
+              <button className="delete" onClick={() => deleteRoutine(routine.routineid)}>Delete</button>
+              <button className="update"><Link to={`/routines/update/${routine.routineid}`}>Update</Link></button>
+            </div>
+          ))}
         </div>
         <button><Link to="/routines/add">Add</Link></button>
-    </div>
+      </div>
+    {/* Add RoutinePage route */}
+
     <h1>Your Workouts</h1>
     <div className="workouts">
         <table>
@@ -140,7 +142,6 @@ const UserPage = () => {
     </div>
     <button><Link to="/workouts/add">Add</Link></button>
 </div>
-    </div>
   )
 }
 
