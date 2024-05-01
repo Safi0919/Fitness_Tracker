@@ -32,8 +32,6 @@ function App() {
         <div>
           <Routes>
             <Route path="/" element={<Intro />} />
-            <Route path="/login" element={<Login />} />\
-            <Route path="/register" element={<Register />} />
             {isLoggedIn ? (
               <>
                 <Route path="/" element={<UserPage />} />
@@ -49,7 +47,11 @@ function App() {
                 <Route path="*" element={<UserPage />} />
               </>
             ) : (
-              <Route path="*" element={<Intro />} />
+              <>
+                <Route path="*" element={<Intro />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </>
             )}
           </Routes>
         </div>
