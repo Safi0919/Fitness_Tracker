@@ -91,41 +91,122 @@ const UpdateRoutine = () => {
     console.log(routine);
 
   return (
-    <div>
-        <h1>Update Routine</h1>
-        <input type="text" placeholder='name' onChange={handleChange} name="routinename"/>
-        <div className="workouts">
-            <table>
-                <tr>
-                <th>Workout Name</th>
-                <th>Type</th>
-                <th>Muscle Group</th>
-                <th>Difficulty</th>
-                <th>Instructions</th>
-                <th>Reps</th>
-                <th>Sets</th>
-                <th>Add to Routine?</th>
-                </tr>
-            {workouts.map((val,key)=>{
-                return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 className="text-2xl font-semibold text-gray-900 my-6">
+        Update Routine
+      </h1>
+      <input
+        type="text"
+        placeholder="Enter the Routine name here"
+        onChange={handleChange}
+        name="routinename"
+        className="form-input block w-full px-3 py-2 mb-4 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+      />
+      <div className="flex flex-col">
+        <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Workout Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Type
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Muscle Group
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Difficulty
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Instructions
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Reps
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Sets
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Add to Routine?
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {workouts.map((val, key) => (
                     <tr key={key}>
-                        <td>{val.name}</td>
-                        <td>{val.type}</td>
-                        <td>{val.muscle}</td>
-                        <td>{val.difficulty}</td>
-                        <td>{val.instructions}</td>
-                        <td>{val.reps}</td>
-                        <td>{val.sets}</td>
-                        <td><input type="checkbox" onChange={() => handleCheckboxChange(val.workoutid)}/> Add to Routine</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {val.name}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {val.type}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {val.muscle}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {val.difficulty}
+                      </td>
+                      <td className="px-6 py-4 whitespace-normal break-words text-sm text-gray-900">
+                        {val.instructions}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {val.reps}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {val.sets}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <input
+                          type="checkbox"
+                          onChange={() => handleCheckboxChange(val.workoutid)}
+                          checked={checkedWorkoutIds.includes(val.workoutid)}
+                        />
+                      </td>
                     </tr>
-                )
-            })}
-            </table>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <button onClick={handleClick}>Update Routine</button>
+      </div>
+      <button
+        onClick={handleClick}
+        className="bg-white hover:bg-black text-black hover:text-white font-bold py-2 px-4 rounded transition-colors duration-300 border border-black mt-8"
+      >
+        Update Routine
+      </button>
     </div>
-  )
+  );
+};
 
-}
 
 export default UpdateRoutine

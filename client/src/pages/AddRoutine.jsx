@@ -79,44 +79,98 @@ const AddRoutine = () => {
     console.log(routine);
 
   return (
-    <div>
-        <h1>Create New Routine</h1>
-        <input type="text" placeholder='name' onChange={handleChange} name="routinename"/>
-        <div className="workouts">
-            <table>
-                <tr>
-                <th>Workout Name</th>
-                <th>Type</th>
-                <th>Muscle Group</th>
-                <th>Difficulty</th>
-                <th>Reps</th>
-                <th>Sets</th>
-                <th>Instructions</th>
-                <th>Add to Routine?</th>
-                </tr>
-            {workouts.map((val,key)=>{
-                return (
-                    <tr key={key}>
-                        <td>{val.name}</td>
-                        <td>{val.type}</td>
-                        <td>{val.muscle}</td>
-                        <td>{val.difficulty}</td>
-                        <td>{val.reps}</td>
-                        <td>{val.sets}</td>
-                        <td>{val.instructions}</td>
-                        <td><input type="checkbox" onChange={() => handleCheckboxChange(val.workoutid)}/></td>
-                    </tr>
-                )
-            })}
-            </table>
-        </div>
-        <button onClick={handleClick}>Create Routine</button>
-        <div>
-                {/* Display checked workout IDs for debugging */}
-                Checked workout IDs: {checkedWorkoutIds.join(", ")}
-        </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 className="text-2xl font-semibold text-gray-900 my-4">
+        Create New Routine
+      </h1>
+      <input
+        type="text"
+        placeholder="Enter the Routine name"
+        onChange={handleChange}
+        name="routinename"
+        className="input-style mb-4"
+      />
+      <div
+        className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+        style={{ maxHeight: "1000px", overflowY: "auto" }}
+      >
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Workout Name
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Type
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Muscle Group
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Difficulty
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Reps
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Sets
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Instructions
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Add to Routine?
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {workouts.map((workout, key) => (
+              <tr key={key}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  {workout.name}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {workout.type}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {workout.muscle}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {workout.difficulty}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {workout.reps}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {workout.sets}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-900">
+                  {workout.instructions}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-center text-sm">
+                  <input
+                    type="checkbox"
+                    onChange={() => handleCheckboxChange(workout.workoutid)}
+                    checked={checkedWorkoutIds.includes(workout.workoutid)}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <button
+        onClick={handleClick}
+        className="bg-white hover:bg-black text-black hover:text-white font-bold py-2 px-4 rounded transition-colors duration-300 border border-black mt-5"
+      >
+        Create Routine
+      </button>
+      <div className="text-med text-gray-900 mt-5">
+        {/* Display checked workout IDs for debugging */}
+        Checked workout IDs: {checkedWorkoutIds.join(", ")}
+      </div>
     </div>
-  )
+  );
 
 }
 
