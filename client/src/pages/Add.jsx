@@ -1,10 +1,11 @@
 import React from 'react'
-import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
 const Add = () => {
+  const userId = localStorage.getItem('userid')
+  console.log(userId)
     const [workout, setWorkout] = useState({
       name:"",
       type:"",
@@ -26,7 +27,14 @@ const Add = () => {
         try {
           const res = await axios.post("http://localhost:8800/workouts", workout)
           console.log(res)
-          navigate("/workouts")
+          const workoutId = res.data.id;
+
+          // Associate workout to user that created it table
+          await axios.post(
+            `http://localhost:8800/workouts_to_users`,
+            { userId: userId, workoutId: workoutId }
+          );
+          navigate("/users")
         } catch (err) {
           console.log(err);
         }
@@ -40,9 +48,9 @@ const Add = () => {
         <input type="text" placeholder='type' onChange={handleChange} name="type"/>
         <input type="text" placeholder='muscle' onChange={handleChange} name="muscle"/>
         <input type="text" placeholder='difficulty' onChange={handleChange} name="difficulty"/>
-        <input type="text" placeholder='instructions' onChange={handleChange} name="instructions"/>
         <input type="number" placeholder='reps' onChange={handleChange} name="reps"/>
         <input type="number" placeholder='sets' onChange={handleChange} name="sets"/>
+        <input type="text" placeholder='instructions' onChange={handleChange} name="instructions"/>
         <button onClick={handleClick}>Add</button>
     </div>
   )

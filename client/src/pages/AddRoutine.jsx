@@ -57,7 +57,7 @@ const AddRoutine = () => {
 
       // Associate the routine with the logged-in user
       await axios.post(
-        `http://localhost:8800/user_to_routines`,
+        `http://localhost:8800/users_to_routines`,
         { userId: userId, routineId: routineId }
       );
 
@@ -69,7 +69,7 @@ const AddRoutine = () => {
         );
       }
 
-      navigate("/routines");
+      navigate("/users");
     } catch (err) {
       console.error("Error creating routine or adding workouts: ", err);
     }
@@ -89,9 +89,9 @@ const AddRoutine = () => {
                 <th>Type</th>
                 <th>Muscle Group</th>
                 <th>Difficulty</th>
-                <th>Instructions</th>
                 <th>Reps</th>
                 <th>Sets</th>
+                <th>Instructions</th>
                 <th>Add to Routine?</th>
                 </tr>
             {workouts.map((val,key)=>{
@@ -101,10 +101,10 @@ const AddRoutine = () => {
                         <td>{val.type}</td>
                         <td>{val.muscle}</td>
                         <td>{val.difficulty}</td>
-                        <td>{val.instructions}</td>
                         <td>{val.reps}</td>
                         <td>{val.sets}</td>
-                        <td><input type="checkbox" onChange={() => handleCheckboxChange(val.workoutid)}/> Add to Routine</td>
+                        <td>{val.instructions}</td>
+                        <td><input type="checkbox" onChange={() => handleCheckboxChange(val.workoutid)}/></td>
                     </tr>
                 )
             })}

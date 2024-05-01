@@ -81,7 +81,7 @@ const UpdateRoutine = () => {
           );
         }
 
-        navigate("/routines");
+        navigate("/users");
       } catch (err) {
         console.error("Error updating routine or adding workouts: ", err);
       }

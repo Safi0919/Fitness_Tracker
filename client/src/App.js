@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Workouts from "./pages/Workouts";
 import UpdateWorkout from "./pages/UpdateWorkout";
 import Add from "./pages/Add";
-import Welcome from "./pages/Welcome";
+import UserPage from "./pages/UserPage";
 import Profile from "./pages/Profile";
 import Routines from "./pages/Routines";
 import AddRoutine from "./pages/AddRoutine"
@@ -48,7 +48,7 @@ function App() {
                 <Route path="/routines/update/:id" element={<UpdateRoutine/>}/>
                 <Route path="/workouts/update/:id" element={<UpdateWorkout/>} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="*" element={<Welcome />} />
+                <Route path="*" element={<UserPage />} />
               </>
             ) : (
               <Route path="*" element={<Login />} />

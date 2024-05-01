@@ -10,9 +10,9 @@ const Routines = () => {
       try {
         // Fetch routines associated with the logged-in user's ID
         const userId = localStorage.getItem('userid');
-        console.log(userId)
         const res = await axios.get(`http://localhost:8800/routines/user/${userId}`);
         setRoutines(res.data);
+        //console.log(userId)
       } catch (err) {
         console.log(err);
       }
@@ -34,7 +34,7 @@ const Routines = () => {
         <h1>Routines</h1>
         <div className="routine">
             {routines.map(routine=>(
-                <div className="routine">
+                <div className="routine" key={routine.routineid}>
                     <h2>{routine.routinename}</h2>
                     <button className="delete" onClick={()=>handleDelete(routine.routineid)}>Delete</button>
                     <button className="update"><Link to={`/routines/update/${routine.routineid}`}>Update</Link></button>

@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 
 const Update = () => {
@@ -49,7 +49,7 @@ const Update = () => {
         try {
             const res = await axios.put(`http://localhost:8800/workouts/${workoutid}`, workout)
             console.log(res)
-            navigate("/workouts")
+            navigate("/users")
         } catch (err) {
           console.log(err);
         }
@@ -63,9 +63,9 @@ const Update = () => {
             <input type="text" placeholder='Type' value={workout.type} onChange={handleChange} name="type" />
             <input type="text" placeholder='Muscle' value={workout.muscle} onChange={handleChange} name="muscle" />
             <input type="text" placeholder='Difficulty' value={workout.difficulty} onChange={handleChange} name="difficulty" />
-            <input type="text" placeholder='Instructions' value={workout.instructions} onChange={handleChange} name="instructions" />
             <input type="number" placeholder='Reps' value={workout.reps || ''} onChange={handleChange} name="reps" />
             <input type="number" placeholder='Sets' value={workout.sets || ''} onChange={handleChange} name="sets" />
+            <input type="text" placeholder='Instructions' value={workout.instructions} onChange={handleChange} name="instructions" />
             <button onClick={handleClick}>Update</button>
         </div>
     );

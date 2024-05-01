@@ -21,48 +21,36 @@ const Workouts = () => {
     fetchAllWorkouts();
   },[])
 
-  const handleDelete = async (id)=>{
-    try {
-        await axios.delete("http://localhost:8800/workouts/"+id);
-        window.location.reload();
-    } catch (err) {
-        console.log(err);
-    }
-  }
-
   return (
-    <div>
-        <h1>Workouts</h1>
-        <div className="workouts">
-            <table>
+<div>
+    <h1>Workouts</h1>
+    <div className="workouts">
+        <table>
+            <tbody>
                 <tr>
-                <th>Workout Name</th>
-                <th>Type</th>
-                <th>Muscle Group</th>
-                <th>Difficulty</th>
-                <th>Instructions</th>
-                <th>Reps</th>
-                <th>Sets</th>
-                <th>Action</th>
+                    <th>Workout Name</th>
+                    <th>Type</th>
+                    <th>Muscle Group</th>
+                    <th>Difficulty</th>
+                    <th>Reps</th>
+                    <th>Sets</th>
+                    <th>Instructions</th>
                 </tr>
-            {workouts.map((val,key)=>{
-                return (
+                {workouts.map((val, key) => (
                     <tr key={key}>
                         <td>{val.name}</td>
                         <td>{val.type}</td>
                         <td>{val.muscle}</td>
                         <td>{val.difficulty}</td>
-                        <td>{val.instructions}</td>
                         <td>{val.reps}</td>
                         <td>{val.sets}</td>
-                        <button className="update"><Link to={`/workouts/update/${val.workoutid}`}>Update</Link></button>
-                        <button className="delete" onClick={()=>handleDelete(val.workoutid)}>Delete</button>
+                        <td>{val.instructions}</td>
                     </tr>
-                )
-            })}
-            </table>
-        </div>
-        <button><Link to="/workouts/add">Add</Link></button>
+                ))}
+            </tbody>
+        </table>
+    </div>
+    <button><Link to="/workouts/add">Add</Link></button>
     </div>
   )
 }
