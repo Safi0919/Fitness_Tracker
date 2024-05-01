@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import Intro from "./pages/Intro";
-import Workouts from "./pages/Workouts";
-import UpdateWorkout from "./pages/UpdateWorkout";
-import Add from "./pages/Add";
-import UserPage from "./pages/UserPage";
-import Profile from "./pages/Profile";
-import Routines from "./pages/Routines";
-import AddRoutine from "./pages/AddRoutine"
-import UpdateRoutine from "./pages/UpdateRoutine"
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import "./style.css"
+import { Intro, Workouts, UpdateWorkout, Add, UserPage, Profile, Routines, AddRoutine, UpdateRoutine, Register, Login } from "./pages/Pages.js";
 import Navbar from "./navbar";
 import { AuthContext } from "./AuthContext";
+import "./style.css";
 import "./pages/main.css";
 
 function App() {
