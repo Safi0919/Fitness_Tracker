@@ -16,6 +16,12 @@ const Login = () => {
         setLogUser(prev => ({ ...prev, [name]: value }));
     };
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleLoginClick(e);
+        }
+    };
+
     const handleLoginClick = async (e) => {
         e.preventDefault();
         try {
@@ -40,10 +46,10 @@ const Login = () => {
         <div className="flex items-center justify-center h-screen">
             <div className="flex flex-col justify-center items-center w-1/2 border-2 rounded-xl border-black bg-gray-600">
                 <h2 className="text-center text-4xl font-bold mt-5 mb-10">Login</h2>
-                <input type="text" placeholder='Username' onChange={handleLoginChange} name="username" className='mb-4 border-2 rounded-md text-xl'/>
-                <input type="password" placeholder='Password' onChange={handleLoginChange} name="password" className=' border-2 rounded-md text-xl'/>
-                {successMessage && <p className='mb-10 text-red-600'>{successMessage}</p>}
-                <button onClick={handleLoginClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl border-2 border-blue-500 hover:border-blue-700 w-40 mb-5">Login</button>
+                <input type="text" placeholder='Username' onChange={handleLoginChange} onKeyPress={handleKeyPress} name="username" className='mb-4 border-2 rounded-md text-xl'/>
+                <input type="password" placeholder='Password' onChange={handleLoginChange} onKeyPress={handleKeyPress} name="password" className=' border-2 rounded-md text-xl'/>
+                {successMessage && <p className='text-red-600'>{successMessage}</p>}
+                <button onClick={handleLoginClick} className="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl border-2 border-blue-500 hover:border-blue-700 w-40 mb-5">Login</button>
                 <Link to="/" className='text-white mb-3'>Return to Home Page</Link>
             </div>  
         </div>
