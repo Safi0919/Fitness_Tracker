@@ -11,43 +11,58 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed top-0 left-0 z-50 w-full bg-gray-950 shadow-sm">
-      <div className="container flex h-16 justify-between px-4 md:px-6">
-        <a className="flex items-center gap-2 font-bold text-white" href="/">
-          <h1 className="text-white transition-colors hover:text-gray-300 text-lg">
-            WorkMan
-          </h1>
-        </a>
-        {isLoggedIn && (
-          <nav className="flex items-center gap-4 md:gap-6">
+    <nav className="flex items-center justify-between w-full p-4 bg-gray-900">
+      <div className="mx-auto">
+        {" "}
+        {/* This will center the title horizontally */}
+        <NavLink
+          to="/"
+          className="text-white font-bold text-lg hover:text-gray-300 transition-colors"
+        >
+          WorkMan
+        </NavLink>
+      </div>
+
+      {isLoggedIn && (
+        <ul className="flex gap-4">
+          {" "}
+          {/* This adds horizontal spacing between links */}
+          <li>
             <NavLink
-              className="text-sm font-medium text-white transition-colors hover:text-gray-300"
               to="/users"
+              className="text-sm font-medium text-white transition-colors hover:text-gray-300"
             >
               Profile
             </NavLink>
+          </li>
+          <li>
             <NavLink
-              className="text-sm font-medium text-white transition-colors hover:text-gray-300"
               to="/routines"
+              className="text-sm font-medium text-white transition-colors hover:text-gray-300"
             >
               Routines
             </NavLink>
+          </li>
+          <li>
             <NavLink
-              className="text-sm font-medium text-white transition-colors hover:text-gray-300"
               to="/workouts"
+              className="text-sm font-medium text-white transition-colors hover:text-gray-300"
             >
               Workouts
             </NavLink>
+          </li>
+          <li>
             <NavLink
-              className="text-sm font-medium text-white transition-colors hover:text-gray-300"
               to="/"
               onClick={handleLogout}
+              className="text-sm font-medium text-white transition-colors hover:text-gray-300"
             >
               Logout
             </NavLink>
-          </nav>
-        )}
-      </div>
-    </header>
+          </li>
+        </ul>
+      )}
+    </nav>
   );
+
 }
