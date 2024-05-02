@@ -37,6 +37,7 @@ function App() {
     }
   }, []);
 
+  // Takes care of navigation between pages
   return (
     <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
       <>
@@ -45,6 +46,7 @@ function App() {
           <Routes>
             {isLoggedIn ? (
               <>
+                {/* If user is logged in, these pages could be accessed */}
                 <Route path="/" element={<UserPage />} />
                 <Route path="/login" element={<UserPage />} />\
                 <Route path="/register" element={<UserPage />} />
@@ -65,6 +67,7 @@ function App() {
               </>
             ) : (
               <>
+                {/* If user is NOT logged in, these pages could be accessed */}
                 <Route path="*" element={<Intro />} />
                 <Route path="/" element={<Intro />} />
                 <Route path="/login" element={<Login />} />
