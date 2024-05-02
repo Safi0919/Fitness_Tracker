@@ -11,17 +11,20 @@ const Register = () => {
     phoneNum: "",
   });
 
+  // Changes user values to values in the inputs for each keystroke
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handles user clicking register button
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleClick(e);
     }
   };
 
+  // Handles user clicking register button
   const handleClick = async (e) => {
     e.preventDefault();
 

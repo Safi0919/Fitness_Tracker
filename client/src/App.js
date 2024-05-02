@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Intro, Workouts, UpdateWorkout, AddWorkout, UserPage, Routines, AddRoutine, UpdateRoutine, Register, Login } from "./pages/Pages.js";
+import {
+  Intro,
+  Workouts,
+  UpdateWorkout,
+  AddWorkout,
+  UserPage,
+  Routines,
+  AddRoutine,
+  UpdateRoutine,
+  Register,
+  Login,
+} from "./pages/Pages.js";
 import Navbar from "./navbar";
 import { AuthContext } from "./AuthContext";
 import "./style.css";
 import "./pages/main.css";
-import RoutinePage from "./pages/RoutinePage"
+import RoutinePage from "./pages/RoutinePage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,12 +26,12 @@ function App() {
   };
 
   const logout = () => {
-    localStorage.removeItem('userid');
+    localStorage.removeItem("userid");
     setIsLoggedIn(false);
   };
 
   useEffect(() => {
-    const userid = localStorage.getItem('userid');
+    const userid = localStorage.getItem("userid");
     if (userid) {
       setIsLoggedIn(true);
     }
@@ -40,10 +51,16 @@ function App() {
                 <Route path="/workouts" element={<Workouts />} />
                 <Route path="/routines" element={<Routines />} />
                 <Route path="/workouts/add" element={<AddWorkout />} />
-                <Route path="/routines/add" element={<AddRoutine/>}/>
-                <Route path="/routines/update/:id" element={<UpdateRoutine/>}/>
-                <Route path="/workouts/update/:id" element={<UpdateWorkout/>} />
-                <Route path="/routines/:id" element={<RoutinePage />}/>
+                <Route path="/routines/add" element={<AddRoutine />} />
+                <Route
+                  path="/routines/update/:id"
+                  element={<UpdateRoutine />}
+                />
+                <Route
+                  path="/workouts/update/:id"
+                  element={<UpdateWorkout />}
+                />
+                <Route path="/routines/:id" element={<RoutinePage />} />
                 <Route path="*" element={<UserPage />} />
               </>
             ) : (

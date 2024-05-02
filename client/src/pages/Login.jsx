@@ -11,18 +11,21 @@ const Login = () => {
     password: "",
   });
 
+  // Updates logUser each keystroke in input
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLogUser((prev) => ({ ...prev, [name]: value }));
     console.log(logUser);
   };
 
+  // Allows user to login by pressing enter key
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleLoginClick(e);
     }
   };
 
+  // Handles user login click
   const handleLoginClick = async (e) => {
     e.preventDefault();
     try {
@@ -75,6 +78,7 @@ const Login = () => {
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               />
             </div>
+            {/* Shows message if login fails */}
             {successMessage && (
               <label className="text-red-600 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 {successMessage}

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 
+// Welcome page
 const Intro = () => {
   return (
     <div className="-full py-12 md:py-24 lg:py-32 xl:py-48 flex items-center justify-center">
