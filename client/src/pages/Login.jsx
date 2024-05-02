@@ -60,7 +60,7 @@ const Login = () => {
                     <input name="password" type="password" onChange={handleLoginChange} onKeyPress={handleKeyPress} className='flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50'/>
                     </div>
                     {successMessage && <label className='text-red-600 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>{successMessage}</label>}
-                    <button onClick={handleLoginClick} className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">
+                    <button onClick={handleLoginClick} className="text-white bg-gray-900 hover:bg-gray-800 hover:text-gray-100 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">
                         Login
                     </button>
                 </form>
@@ -76,72 +76,3 @@ const Login = () => {
 };
 
 export default Login;
-
-/*
-
-
-
-
-
-
-
-
-
-<!--
-// v0 by Vercel.
-// https://v0.dev/t/TbWTnv3E4J4
--->
-
-<div class="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-800">
-  <div class="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-8 w-full max-w-md">
-    <div class="space-y-4">
-      <div class="space-y-2 text-center">
-        <h1 class="text-3xl font-bold">Login</h1>
-        <p class="text-gray-500 dark:text-gray-400">Enter your credentials to access your account.</p>
-      </div>
-      <form class="space-y-4">
-        <div>
-          <label
-            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            for="username"
-          >
-            Username
-          </label>
-          <input
-            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            id="username"
-            placeholder="johndoe"
-            required=""
-            type="text"
-          />
-        </div>
-        <div>
-          <label
-            class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            for="password"
-          >
-            Password
-          </label>
-          <input
-            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            id="password"
-            required=""
-            type="password"
-          />
-        </div>
-        <button
-          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
-          type="submit"
-        >
-          Login
-        </button>
-      </form>
-      <div class="text-center">
-        <a class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" href="#">
-          Don't have an account? Sign up here
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-*/
