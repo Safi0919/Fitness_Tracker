@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 
 const UpdateRoutine = () => {
@@ -17,7 +17,13 @@ const UpdateRoutine = () => {
     const location = useLocation();
     const routineid = location.pathname.split("/")[3];
 
-    // Fetch all workouts  to add to routine
+    const tableHeaderClass =
+      "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider";
+    
+    const tableContentClass =
+      "px-6 py-4 whitespace-normal text-sm text-gray-900";
+
+    // This fetches all workouts to be potentially added to the particular routine
     useEffect(()=>{
       const fetchAllWorkouts = async () =>{
           try{
@@ -31,7 +37,7 @@ const UpdateRoutine = () => {
       fetchAllWorkouts();
     },[])
 
-    // Fetch the previous routine name
+    // Fetches the name of the previous routine name
     useEffect(() => {
         const fetchRoutine = async () => {
           try {
@@ -53,8 +59,8 @@ const UpdateRoutine = () => {
         setRoutine(prev=>({...prev, [e.target.name]: e.target.value}))
     };
 
+    // Handles the trigger for the change in checkbox state
     const handleCheckboxChange = (id) => {
-      // Toggle the workout ID in the list of checked IDs
       console.log("Checkbox with ID", id, "changed");
       setCheckedWorkoutIds(prevIds => {
           if (prevIds.includes(id)) {
@@ -68,7 +74,7 @@ const UpdateRoutine = () => {
     const handleClick = async (e) => {
       e.preventDefault();
       try {
-        // Update routine name
+        // Update the routine name with new name
         const routineResponse = await axios.put(
           `http://localhost:8800/routines/${routineid}`, routine
         );
@@ -87,8 +93,6 @@ const UpdateRoutine = () => {
         console.error("Error updating routine or adding workouts: ", err);
       }
     };
-
-
     console.log(routine);
 
   return (
@@ -110,52 +114,28 @@ const UpdateRoutine = () => {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" className={tableHeaderClass}>
                       Workout Name
                     </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" className={tableHeaderClass}>
                       Type
                     </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" className={tableHeaderClass}>
                       Muscle Group
                     </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" className={tableHeaderClass}>
                       Difficulty
                     </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" className={tableHeaderClass}>
                       Instructions
                     </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" className={tableHeaderClass}>
                       Reps
                     </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" className={tableHeaderClass}>
                       Sets
                     </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    >
+                    <th scope="col" className={tableHeaderClass}>
                       Add to Routine?
                     </th>
                   </tr>
@@ -166,25 +146,13 @@ const UpdateRoutine = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {val.name}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {val.type}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {val.muscle}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {val.difficulty}
-                      </td>
-                      <td className="px-6 py-4 whitespace-normal break-words text-sm text-gray-900">
-                        {val.instructions}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {val.reps}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        {val.sets}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className={tableContentClass}>{val.type}</td>
+                      <td className={tableContentClass}>{val.muscle}</td>
+                      <td className={tableContentClass}>{val.difficulty}</td>
+                      <td className={tableContentClass}>{val.instructions}</td>
+                      <td className={tableContentClass}>{val.reps}</td>
+                      <td className={tableContentClass}>{val.sets}</td>
+                      <td className={tableContentClass}>
                         <input
                           type="checkbox"
                           onChange={() => handleCheckboxChange(val.workoutid)}
@@ -204,6 +172,9 @@ const UpdateRoutine = () => {
         className="bg-white hover:bg-black text-black hover:text-white font-bold py-2 px-4 rounded transition-colors duration-300 border border-black mt-8"
       >
         Update Routine
+      </button>
+      <button className="inline-block bg-white hover:bg-black text-black hover:text-white font-bold py-2 px-4 rounded transition-colors duration-300 border border-black mt-5 ml-4">
+        <Link to="/users">Back to Profile</Link>
       </button>
     </div>
   );
