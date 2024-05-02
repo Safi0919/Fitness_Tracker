@@ -13,8 +13,7 @@ const Add = () => {
     reps: null,
     sets: null,
   });
-  const [isActive, setIsActive] = useState(false); // State to manage button style
-  //const navigate = useNavigate();
+  const [isActive, setIsActive] = useState(false);
 
   const inputStyle =
     "bg-white text-gray-600 border border-black rounded w-full py-2 px-3 mb-4";
@@ -23,6 +22,7 @@ const Add = () => {
     setWorkout((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // This POSTS/inserts the data into the table
   const handleClick = async (e) => {
     e.preventDefault();
     try {
@@ -33,10 +33,10 @@ const Add = () => {
           userId,
           workoutId,
         });
-
-        setIsActive(true); // Activate the button's "active" style
+        // This changes the button's font for 3 seconds
+        setIsActive(true);
         setTimeout(() => {
-          setIsActive(false); // Reset the button style after 3 seconds
+          setIsActive(false);
         }, 3000);
       }
     } catch (err) {
@@ -45,7 +45,7 @@ const Add = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
       <h1 className="text-2xl font-semibold text-gray-900 mt-12 mb-8">
         Add new workout
       </h1>
@@ -112,7 +112,7 @@ const Add = () => {
         </button>
       </form>
 
-      <button className="bg-white hover:bg-black text-black hover:text-white font-bold py-2 px-4 rounded transition-colors duration-300 border border-black">
+      <button className="mt-5 bg-white hover:bg-black text-black hover:text-white font-bold py-2 px-4 rounded transition-colors duration-300 border border-black">
         <Link to="/workouts">Back to Workouts Page!</Link>
       </button>
     </div>

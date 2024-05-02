@@ -7,8 +7,9 @@ const Workouts = () => {
   const tableHeaderClass =
     "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider";
   const columnHeaderClass =
-    "px-6 py-4 whitespace-normal text-sm font-medium text-gray-900"; // Changed to `whitespace-normal`
+    "px-6 py-4 whitespace-normal text-sm font-medium text-gray-900";
 
+  // This fetches all the workouts present in the database
   useEffect(() => {
     const fetchAllWorkouts = async () => {
       try {
