@@ -3,24 +3,32 @@ import { Link } from 'react-router-dom';
 
 const Intro = () => {
   return (
-    <div className>
-      <h1 className="text-center text-5xl font-bold mt-3">
-        Welcome to the Fitness Tracker!
-      </h1>
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="w-3/4 text-center border-2 rounded-xl flex border-black bg-gray-600">
-            <div className="flex-1 p-2 relative mt-10 mb-10">
-              <p className="text-xl text-white mb-5">Already have an account?</p>
-              <Link to="/login"><button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl border-2 border-blue-500 hover:border-blue-700 w-40">Login</button></Link>
-            </div>
-            <div className="relative">
-              <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white bg-gray-600 px-2">or</p>
-            </div>
-            <div className="flex-1 p-2 relative mt-10 mb-10">
-              <p className="text-xl text-white mb-5">Are you a new user?</p>
-              <Link to="/register"><button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl border-2 border-blue-500 hover:border-blue-700 w-40">Register</button></Link>
-            </div>
+    <div className='w-full py-12 md:py-24 lg:py-32 xl:py-48'>
+      <div className="container px-4 md:px-6">
+        <div className="flex flex-col items-center space-y-4 text-center">
+          <div className="space-y-2">
+            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+              Reach Your Fitness Goals
+            </h1>
+            <p className="mx-auto max-w-[700px] text-gray-500 md:text-x1">
+              Streamline your exercise schedule with our user-oriented workout manager. Create workout routines, use community-curated workouts, or share your own!
+            </p>
           </div>
+          <div className="space-x-4">
+            <Link
+              className="inline-flex h-10 items-center justify-center rounded-md bg-gray-900 px-6 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
+              to="/login"
+            >
+              Log In
+            </Link>
+            <Link
+              className="inline-flex h-10 items-center justify-center rounded-md border border-gray-200 border-gray-200 bg-white px-6 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
+              to="/register"
+            >
+              Sign Up
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
