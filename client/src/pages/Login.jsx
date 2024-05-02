@@ -4,7 +4,7 @@ import { AuthContext } from '../AuthContext';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
-    const { isLoggedIn, login } = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
     const [successMessage, setSuccessMessage] = useState('');
     const [logUser, setLogUser] = useState({
         username: "",

@@ -9,8 +9,10 @@ const Routines = () => {
     const fetchUserRoutines = async () => {
       try {
         // Fetch routines associated with the logged-in user's ID
-        const userId = localStorage.getItem('userid');
-        const res = await axios.get(`http://localhost:8800/routines/user/${userId}`);
+        const userId = localStorage.getItem("userid");
+        const res = await axios.get(
+          `http://localhost:8800/routines/user/${userId}`
+        );
         setRoutines(res.data);
         //console.log(userId)
       } catch (err) {
@@ -20,16 +22,15 @@ const Routines = () => {
     fetchUserRoutines();
   }, []); // Fetch routines when the user data changes
 
-  const handleDelete = async (id)=>{
+  const handleDelete = async (id) => {
     try {
-        await axios.delete("http://localhost:8800/routines/"+id);
-        window.location.reload();
+      await axios.delete("http://localhost:8800/routines/" + id);
+      window.location.reload();
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
-  }
+  };
 
-  
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-semibold text-gray-900 my-6">Routines</h1>
@@ -39,9 +40,10 @@ const Routines = () => {
             key={routine.routineid}
             className="bg-white shadow rounded-lg p-4 flex justify-between items-center"
           >
-            <h2 className="text-lg font-medium text-gray-800">
-              {routine.routinename}
-            </h2>
+            <Link to={`/routines/${routine.routineid}`}>
+                <h2 className="text-lg font-medium text-gray-800">{routine.routinename}</h2>
+              </Link>
+
             <div>
               <Link
                 to={`/routines/update/${routine.routineid}`}
@@ -69,4 +71,4 @@ const Routines = () => {
   );
 };
 
-export default Routines
+export default Routines;

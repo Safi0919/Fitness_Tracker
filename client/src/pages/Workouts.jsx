@@ -76,6 +76,9 @@ const Workouts = () => {
           Add Workout
         </Link>
       </button>
+      <button className="inline-block bg-white hover:bg-black text-black hover:text-white font-bold py-2 px-4 rounded transition-colors duration-300 border border-black mt-5 ml-4">
+        <Link to="/users">Back to Profile</Link>
+      </button>
     </div>
   );
 };

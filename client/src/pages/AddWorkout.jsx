@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const Add = () => {
@@ -15,7 +14,7 @@ const Add = () => {
     sets: null,
   });
   const [isActive, setIsActive] = useState(false); // State to manage button style
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const inputStyle =
     "bg-white text-gray-600 border border-black rounded w-full py-2 px-3 mb-4";
@@ -114,7 +113,7 @@ const Add = () => {
       </form>
 
       <button className="bg-white hover:bg-black text-black hover:text-white font-bold py-2 px-4 rounded transition-colors duration-300 border border-black">
-        <Link to="/users">Back to Workouts Page!</Link>
+        <Link to="/workouts">Back to Workouts Page!</Link>
       </button>
     </div>
   );
